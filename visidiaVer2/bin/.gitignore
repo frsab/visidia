@@ -1,12 +1,8 @@
 /add.png
 /agent_killer.png
 /agent_prop.png
-/build/
-/compileResult/
 /delete.png
 /faster.png
-/generateGML/
-/graphBuilderViSiDiA/
 /green.png
 /help.png
 /info.png
@@ -17,6 +13,10 @@
 /menu_closed.png
 /menu_open.png
 /new.png
+/build/
+/compileResult/
+/generateGML/
+/graphBuilderViSiDiA/
 /next.png
 /open.png
 /parent_folder.png
@@ -33,3 +33,7 @@
 /switch_on_off.png
 /undo.png
 /visidia/
+/zoom.png
+/zoomin.png
+/zoomout.png
+/compileResultWithNBMESSAGE/
