@@ -1,0 +1,4 @@
+0  detected idA=8 idCloneA=0  posA=(300, 300)  posCloneA=(50, 50) nb_WinessCacheMax=2 nb_WinessCache=42, nb_claimsMax=2, nb_claims=3 Nb_Messages=128
+1  detected idA=8 idCloneA=0  posA=(300, 300)  posCloneA=(50, 50) nb_WinessCacheMax=3 nb_WinessCache=38, nb_claimsMax=3, nb_claims=6 Nb_Messages=97
+2  detected idA=8 idCloneA=0  posA=(300, 300)  posCloneA=(50, 50) nb_WinessCacheMax=1 nb_WinessCache=42, nb_claimsMax=1, nb_claims=1 Nb_Messages=137
+3  detected idA=8 idCloneA=0  posA=(300, 300)  posCloneA=(50, 50) nb_WinessCacheMax=2 nb_WinessCache=43, nb_claimsMax=2, nb_claims=3 Nb_Messages=159
