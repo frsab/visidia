@@ -12,7 +12,28 @@ public class Histogram implements Comparable{
 	//averageMemorySize=1874.7197994987469 maxMemorySize=124.0 detectionNb=473 lineNB=1995 totalNbMessageSent=254370 totalMemorySize=3740066.0
 
 			
+	public String histNetString() {
+		int indexAlgo=0;
+		if(Algo.contains("LSM_pts")){
+			indexAlgo=0;
+		
+		}
+		else if(Algo.contains("RED_pts")){
+			indexAlgo=1;			
+		}
+		else if(Algo.contains("SDC_pts")){
+			indexAlgo=2;			
+		}
+		else if(Algo.contains("LSM_Walk_pts")){
+			indexAlgo=3;					
+			
+		}
+		return  indexAlgo + "  " + graphSize + "  " + nb_elements
+				+ " " + averageNbMessage + "  " + averageDetectRate
+				+ "=" + averageNbWitness ;
 
+
+	}
 	public String histString() {
 		return "Algo " + Algo + " graphSize " + graphSize + " nb_elements=" + nb_elements
 				+ " averageNbMessage=" + averageNbMessage + " averageDetectRate=" + averageDetectRate

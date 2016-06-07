@@ -1,9 +1,11 @@
 package compileResultWithNBMESSAGE;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +26,7 @@ public class generateHistogrammeFiles {
 		String[] listFichiers= f.list();;	//getFilesList(f);
 		for (int i = 0; i < listFichiers.length; i++) {
 			String currentFile = listFichiers[i];
-			System.out.println(currentFile.substring(12,20));
+			//System.out.println(currentFile.substring(12,20));
 			Histogram h=null;
 			
 			if(currentFile.contains("LSM_pts")){
@@ -66,7 +68,31 @@ public class generateHistogrammeFiles {
 					e.printStackTrace();
 				}
 				  System.out.println(h.histString());
+					saveLine(h.histNetString(),GNUPLOT_HISTOGRAMS_FILES+"hist.txt");
 				
+			}
+		}
+		
+	}
+
+
+		private static void saveLine(String line, String fileURL) {
+		BufferedWriter out = null;
+		try {
+			out = new BufferedWriter(new FileWriter(new File(fileURL), true));
+			// out = new BufferedWriter(new FileWriter(new
+			// File(this.getClass().getName()+this.getNetSize()+".txt"),true));
+			out.write(line + "\n");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
