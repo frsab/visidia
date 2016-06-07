@@ -23,27 +23,19 @@ public class Main {
 		File f = new File(RESULT_FILES_FOLDER);
 		ArrayList<String> listFichiers= 		getFilesList(f);
 		ArrayList<String> listAlgo =getListAlgo();
-		
 		ArrayList<String> currentAlgoFilesList =null;
 		ArrayList<String> currentAlgoCurrentSizeFilesList =null;
 		ArrayList<Integer> listSize=null;
-		
-		
-		
 		for (Iterator iterator = listAlgo.iterator(); iterator.hasNext();) {
 			currentAlgoFilesList = new ArrayList<String>();
-			
 			String currentAlgo = (String) iterator.next();
 			for (Iterator iterator2 = listFichiers.iterator(); iterator2.hasNext();) {
 				String currentFile = (String) iterator2.next();
 				if(currentFile.contains(currentAlgo)){
 					currentAlgoFilesList.add(currentFile);
 				}
-				
 			}
 			listSize = getNotRepeatedInt(listFichiers,1);
-			
-			
 			for (Iterator iterator1 = listSize.iterator(); iterator1.hasNext();) {
 				currentAlgoCurrentSizeFilesList= new ArrayList<String>();
 				//System.out.println("------------------");
@@ -70,10 +62,8 @@ public class Main {
 		      for(int i=0; i<files.length; i++) {
 		       
 		           files[i].delete();
-		         
 		      }
 		    }
-		    //path.delete();
 		  }
 		
 	
@@ -93,8 +83,6 @@ public class Main {
 			synthesisFileName=filesList.get(0).substring(0, filesList.get(0).length() - 6);
 			synthesisFileName+=".txt";
 		}
-
-		
 		ListSimulationSynthesis lsitSimSynthese =new ListSimulationSynthesis();
 		for (Iterator iterator = filesList.iterator(); iterator.hasNext();) {
 			String currentFile = (String) iterator.next();
@@ -104,12 +92,9 @@ public class Main {
 				String line;
 				try {
 					while ((line = currentBufferReader.readLine()) != null){
-						
-						
 						lsitSimSynthese.update(line);
 						;//System.out.println(line);
 					}
-						
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -118,16 +103,10 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
 		}
 		System.out.println();
 		lsitSimSynthese.show();
 		lsitSimSynthese.save(COMPILED_RESULT_FILES_FOLDER+synthesisFileName);
-		
-
-		
-
 	}
 
 	private static int indexSim(String ligne) {
@@ -172,8 +151,6 @@ public class Main {
 		String[]tableauAlgos={"LSM_pts","LSM_Walk_pts", "RED_pts","SDC_pts"};
 		String[] tableauFichiers;
 		ArrayList<Integer> listSize = new ArrayList<Integer>();
-		
-		
 		ArrayList<String> listFichiers=new ArrayList<String>();
 		int sizeG=0;
 		int versionG=0;
@@ -181,11 +158,8 @@ public class Main {
 		tableauFichiers = f.list();
 		for (int j = 0; j < tableauFichiers.length; j++) {
 			listFichiers.add(tableauFichiers[j]);
-			
 		}
-		
 		Collections.sort(listFichiers);
-		
 		for (i = 0; i < tableauFichiers.length; i++) {
 			String current = tableauFichiers[i];
 			sizeG=extractIntFromStringAtPos(current,1);
@@ -204,7 +178,6 @@ public class Main {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			      try {
 					fichier.close();
 				} catch (IOException e) {
@@ -215,10 +188,8 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
 		return listFichiers;
-
 	}
 
 	static int extractIntFromStringAtPos(String line, int n) {
