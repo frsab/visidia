@@ -68,10 +68,32 @@ public class generateHistogrammeFiles {
 					e.printStackTrace();
 				}
 				  System.out.println(h.histString());
-					saveLine(h.histNetString(),GNUPLOT_HISTOGRAMS_FILES+"hist.txt");
-				
+				  saveLine(h.histNetString(),GNUPLOT_HISTOGRAMS_FILES+"hist.txt");
+				  histograms.add(h);
+				  System.out.println(histograms.size());
 			}
 		}
+
+			int[] sizes = {100,1000,5000};
+			String[] algos= {"LSM_pts","RED_pts","SDC_pts","LSM_Walk_pts"};
+			for( String algo:algos){
+				String s_averageNbMessage="";
+				String s_averageDetectRate="";
+				String s_averageNbWitness="";
+				for(int s:sizes){
+					for (int i=0;i<histograms.size();i++){
+						if(histograms.get(i).getAlgo().equals(algo) && histograms.get(i).getGraphSize()==s ){
+							 s_averageNbMessage+=histograms.get(i).getAverageNbMessage()+ " ";
+							 s_averageDetectRate+=histograms.get(i).getAverageDetectRate()+ " ";
+							 s_averageNbWitness +=histograms.get(i).getAverageNbWitness()+ " ";	
+						}	
+					}
+				}
+				saveLine(algo+" "+s_averageNbMessage,GNUPLOT_HISTOGRAMS_FILES+"hists_averageNbMessage.txt");
+				saveLine(algo+" "+s_averageDetectRate,GNUPLOT_HISTOGRAMS_FILES+"hists_averageDetectRate.txt");
+				saveLine(algo+" "+s_averageNbWitness,GNUPLOT_HISTOGRAMS_FILES+"hists_averageNbWitness.txt");	
+			}
+		
 		
 	}
 

@@ -28,14 +28,17 @@ public class Histogram implements Comparable{
 			indexAlgo=3;					
 			
 		}
-		return  indexAlgo + "  " + graphSize + "  " + nb_elements
-				+ " " + averageNbMessage + "  " + averageDetectRate
-				+ "=" + averageNbWitness ;
+		return  
+		indexAlgo + "_" 
+		+ graphSize + " " 
+		+ averageNbMessage + " " 
+		+ averageDetectRate+ " " 
+		+ averageNbWitness ;
 
 
 	}
 	public String histString() {
-		return "Algo " + Algo + " graphSize " + graphSize + " nb_elements=" + nb_elements
+		return "Algo " + Algo + " graphSize " + graphSize + " nb_elements" + nb_elements
 				+ " averageNbMessage=" + averageNbMessage + " averageDetectRate=" + averageDetectRate
 				+ "averageNbWitness=" + averageNbWitness ;
 
