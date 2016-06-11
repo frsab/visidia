@@ -4,8 +4,8 @@ reset
 set terminal png size 1000,800
 set output 'MemoryConsumption.png'
 
-set dgrid3d 100,100
+set dgrid3d 15,15
 set hidden3d
 
-splot  'gnuplotFile_idA=_posAx50_posAy50_5000_LSM_p' u 1:2:5 with lines 
+splot  'RED.dat' u 1:2:6 with lines,'LSM.dat' u 1:2:6 with lines ,'WALK.dat' u 1:2:6 with lines ,'SDC.dat' u 1:2:6with lines
 

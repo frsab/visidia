@@ -75,7 +75,7 @@ public class generateHistogrammeFiles {
 		}
 
 			int[] sizes = {100,1000,5000};
-			String[] algos= {"LSM_pts","RED_pts","SDC_pts","LSM_Walk_pts"};
+			String[] algos= {"RED_pts","LSM_pts","LSM_Walk_pts","SDC_pts"};
 			for( String algo:algos){
 				String s_averageNbMessage="";
 				String s_averageDetectRate="";
@@ -123,7 +123,7 @@ public class generateHistogrammeFiles {
 
 	private static ArrayList<String> getListAlgo() {
 		ArrayList<String> list= new ArrayList<String>();
-		String[]tableauAlgos={"LSM_pts","LSM_Walk_pts", "RED_pts","SDC_pts"};
+		String[]tableauAlgos={"RED_pts","LSM_pts","LSM_Walk_pts","SDC_pts"};
 		for (int i = 0; i < tableauAlgos.length; i++) {
 			list.add(tableauAlgos[i]);
 		}
@@ -159,7 +159,7 @@ public class generateHistogrammeFiles {
 
 
 	private static ArrayList<String> getFilesList(File f) {
-		String[]tableauAlgos={"LSM_pts","LSM_Walk_pts", "RED_pts","SDC_pts"};
+		String[]tableauAlgos={"RED_pts","LSM_pts","LSM_Walk_pts","SDC_pts"};
 		String[] tableauFichiers;
 		ArrayList<Integer> listSize = new ArrayList<Integer>();
 		ArrayList<String> listFichiers=new ArrayList<String>();

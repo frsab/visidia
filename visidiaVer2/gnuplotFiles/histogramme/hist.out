@@ -1,0 +1,25 @@
+# diskhist.conf
+set terminal png truecolor
+set output "hists_averageNbMessage.png"
+set grid
+set style data histograms
+set style fill solid 1.00 border -1
+plot "hists_averageNbMessage.txt"  using 2:xtic(1) title "size 100", '' using 3 title "size 1000", '' using 4 title "size 5000"
+
+
+set terminal png truecolor
+set output "hists_averageNbWitness.png"
+set grid
+set style data histograms
+set style fill solid 1.00 border -1
+plot "hists_averageNbWitness.txt"  using 2:xtic(1) title "size 100", '' using 3 title "size 1000", '' using 4 title "size 5000"
+
+
+set terminal png truecolor
+set output "hists_averageDetectRate.png"
+set grid
+set style data histograms
+set style fill solid 1.00 border -1
+plot "hists_averageDetectRate.txt"  using 2:xtic(1) title "size 100", '' using 3 title "size 1000", '' using 4 title "size 5000"
+
+

@@ -39,7 +39,7 @@ public class Routing extends SynchronousAlgorithm {
 	private static Vector<Edge> addedEdges = new Vector<Edge>();
 	private static Boolean[][] connections = null;
 	protected Random rand = new Random();
-	protected static Integer iterationNumber = 0;
+	protected static Integer iterationNumber = 25000;
 	protected double xPos;
 	protected double yPos;
 	private Point pos;
