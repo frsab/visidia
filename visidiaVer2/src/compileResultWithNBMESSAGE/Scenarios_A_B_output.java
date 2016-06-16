@@ -81,21 +81,21 @@ public class Scenarios_A_B_output {
 		+		Main.extractIntFromStringAtPos(line,5)		+"		"
 		+		Main.extractIntFromStringAtPos(line,6)		+"		"
 		// detectRate
-		+		formatter.format(Main.extractFloatFromStringAtPos(line,7))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,7))		+" "
 		// averageNbMessageSent
-		+		formatter.format(Main.extractFloatFromStringAtPos(line,8))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,8))		+" "
 		// average_nb_WinessCacheMax
-		+		formatter.format(Main.extractFloatFromStringAtPos(line,9))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,9))		+" "
 		// average_nb_WinessCache
-		+		formatter.format(Main.extractFloatFromStringAtPos(line,10))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,10))		+" "
 		// average_nb_claimsMax
-		+		formatter.format(Main.extractFloatFromStringAtPos(line,11))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,11))		+" "
 		// average_nb_claims
-		+		formatter.format(Main.extractFloatFromStringAtPos(line,12))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,12))		+" "
 		// averageMemorySize
-		+		formatter.format(Main.extractFloatFromStringAtPos(line,13))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,13))		+" "
 		// maxMemorySize
-		+		formatter.format(Main.extractFloatFromStringAtPos(line,14))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,14))		+" "
 		
 				;
 		Main.saveLine(resultLine,GNUPLOT_FOLDER+fileName,"gnuPlotOut");
