@@ -9,8 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SimulationSynthesis implements Comparable {
-	private int idA;
-	private int idCloneA;
+	//private int idA;
+	//private int idCloneA;
 	private Point posA;
 	private Point posCloneA;
 
@@ -33,10 +33,16 @@ public class SimulationSynthesis implements Comparable {
 	private double average_nb_claimsMax;
 	private double average_nb_claims;
 
-	public SimulationSynthesis(int idA, int idCloneA) {
+/*	public SimulationSynthesis(int idA, int idCloneA) {
 		super();
 		this.idA = idA;
 		this.idCloneA = idCloneA;
+	}*/
+	public SimulationSynthesis(Point posA, Point posCloneA) {
+		super();
+		this.posA=posA;
+		this.posCloneA=posCloneA;
+	
 	}
 
 	public SimulationSynthesis(String line) {
@@ -45,8 +51,8 @@ public class SimulationSynthesis implements Comparable {
 		// Nb_Messages=14
 		// totalMemory=476 maxMemory=34
 		super();
-		this.idA = this.extractIntFromStringAtPos(line, 2);
-		this.idCloneA = this.extractIntFromStringAtPos(line, 3);
+	//	this.idA = this.extractIntFromStringAtPos(line, 2);
+		//this.idCloneA = this.extractIntFromStringAtPos(line, 3);
 		this.posA = new Point(this.extractIntFromStringAtPos(line, 4), this.extractIntFromStringAtPos(line, 5));
 		this.posCloneA = new Point(this.extractIntFromStringAtPos(line, 6), this.extractIntFromStringAtPos(line, 7));
 		total_nb_WinessCacheMax = this.extractIntFromStringAtPos(line, 8);
@@ -142,9 +148,7 @@ public class SimulationSynthesis implements Comparable {
 
 		// if(detectionNb>0)
 		// return "("+idCloneA+","+idA+") :"+"SimulationSynthesis "
-		return "" + "idA=" + idA 
-				+ " idCloneA=" + idCloneA 
-				+ " posA=(" + (((int) posA.getX())-50) 
+		return ""+ " posA=(" + (((int) posA.getX())-50) 
 				+ " " + (((int) posA.getY())-50)+ ")" 
 				+ " posCloneA=(" + (((int) posCloneA.getX())-50) 
 				+ " " +(((int) posCloneA.getY())-50) + ")"
@@ -165,12 +169,28 @@ public class SimulationSynthesis implements Comparable {
 
 	@Override
 	public int compareTo(Object ss) {
-		if (((SimulationSynthesis) ss).getIdA() == this.getIdA()
-				&& ((SimulationSynthesis) ss).getIdCloneA() == this.getIdCloneA()) {
+		if (((SimulationSynthesis) ss).getPosA().equals(this.getPosA())
+			&& ((SimulationSynthesis) ss).getPosCloneA().equals(this.getPosCloneA())){
 			return 0;
 		} else {
 			return 1;
 		}
+	}
+
+	public Point getPosA() {
+		return posA;
+	}
+
+	public void setPosA(Point posA) {
+		this.posA = posA;
+	}
+
+	public Point getPosCloneA() {
+		return posCloneA;
+	}
+
+	public void setPosCloneA(Point posCloneA) {
+		this.posCloneA = posCloneA;
 	}
 
 	public void merge(SimulationSynthesis simulationSynthesis) {
@@ -249,7 +269,7 @@ public class SimulationSynthesis implements Comparable {
 
 	}
 
-	public int getIdA() {
+/*	public int getIdA() {
 		return idA;
 	}
 
@@ -263,7 +283,7 @@ public class SimulationSynthesis implements Comparable {
 
 	public void setIdCloneA(int idCloneA) {
 		this.idCloneA = idCloneA;
-	}
+	}*/
 
 	public double getAverageNbMessageSent() {
 		return averageNbMessageSent;

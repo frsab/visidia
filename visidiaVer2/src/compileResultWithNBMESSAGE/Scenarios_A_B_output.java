@@ -52,12 +52,11 @@ public class Scenarios_A_B_output {
 	}
 
 	private static void fixLine(String line,int graphSize,String algoName) {
-		//[idA=14 idCloneA=6 posA=(50 216) posCloneA=(500 100) 
-		//detectRate=0,00240000000000000000 averageMemorySize=3073.0384 maxMemorySize=844.0 averageNbMessageSent=157.1776 detectionNb=6 lineNB=2500 totalNbMessageSent=392944 totalMemorySize=7682596.0]23.999999999999996
-		
-		//[idA=13 idCloneA=1 posA=(150 150) posCloneA=(300 500) 
-		//detectRate=0.00300000000000000000 averageMemorySize=4593.66 maxMemorySize=1384.0 averageNbMessageSent=193.901 
-		//detectionNb=12 lineNB=4000 totalNbMessageSent=775604 totalMemorySize=1.837464E7]30.0
+		//posA=(0 0) posCloneA=(100 100) detectRate=1.00000000000000000000 
+		//averageNbMessageSent=897.5134865134866average_nb_WinessCacheMax3.3516483516483517 
+		//average_nb_WinessCache28.84115884115884average_nb_claimsMax3.3516483516483517 
+		//average_nb_claims52.01698301698302 averageMemorySize=5662.127872127872 
+		//maxMemorySize=2734.0 detectionNb=1001 lineNB=1001 totalNbMessageSent=898411 totalMemorySize=5667790.0
 
 		
 		DecimalFormat formatter = new DecimalFormat();
@@ -69,33 +68,33 @@ public class Scenarios_A_B_output {
 		+"gnuplotFile_idA="
 		//+		Main.extractIntFromStringAtPos(line,1)
 		+"_posAx"
-		+		Main.extractIntFromStringAtPos(line,3)
+		+		Main.extractIntFromStringAtPos(line,1)
 		+"_posAy"
-		+		Main.extractIntFromStringAtPos(line,4)
+		+		Main.extractIntFromStringAtPos(line,2)
 		+"_"+graphSize
 		+"_"
 		+	algoName	
 		+".txt"
 		;
 		resultLine=""
-		+		Main.extractIntFromStringAtPos(line,5)		+"		"
-		+		Main.extractIntFromStringAtPos(line,6)		+"		"
+		+		Main.extractIntFromStringAtPos(line,3)		+"		"
+		+		Main.extractIntFromStringAtPos(line,4)		+"		"
 		// detectRate
-		+		(Main.extractFloatFromStringAtPos(line,7))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,5))		+" "
 		// averageNbMessageSent
-		+		(Main.extractFloatFromStringAtPos(line,8))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,6))		+" "
 		// average_nb_WinessCacheMax
-		+		(Main.extractFloatFromStringAtPos(line,9))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,7))		+" "
 		// average_nb_WinessCache
-		+		(Main.extractFloatFromStringAtPos(line,10))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,8))		+" "
 		// average_nb_claimsMax
-		+		(Main.extractFloatFromStringAtPos(line,11))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,9))		+" "
 		// average_nb_claims
-		+		(Main.extractFloatFromStringAtPos(line,12))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,10))		+" "
 		// averageMemorySize
-		+		(Main.extractFloatFromStringAtPos(line,13))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,11))		+" "
 		// maxMemorySize
-		+		(Main.extractFloatFromStringAtPos(line,14))		+" "
+		+		(Main.extractFloatFromStringAtPos(line,12))		+" "
 		
 				;
 		Main.saveLine(resultLine,GNUPLOT_FOLDER+fileName,"gnuPlotOut");

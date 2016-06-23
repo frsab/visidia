@@ -131,9 +131,9 @@ public class Histogram implements Comparable{
 	public void updateHistogram(String line) {
 
 		this.nb_elements++;
-		this.totalNbMessage += extractFloatFromStringAtPos(line ,8);;
-		this.totalDetectRate += extractFloatFromStringAtPos(line ,7);;
-		this.totalNbWitness += extractFloatFromStringAtPos(line ,10);;
+		this.totalNbMessage += extractFloatFromStringAtPos(line ,6);;
+		this.totalDetectRate += extractFloatFromStringAtPos(line ,5);;
+		this.totalNbWitness += extractFloatFromStringAtPos(line ,8);;
 		averageNbMessage= totalNbMessage/nb_elements;
 		averageDetectRate= totalDetectRate/nb_elements;
 		averageNbWitness =totalNbWitness/nb_elements;
