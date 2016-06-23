@@ -8,7 +8,7 @@ import java.util.Collections;
 public class GraphGML {
 
 	private static final int VALEUR_MIN = 0;
-	private static final int VALEUR_MAX = 1000;
+	private static final int VALEUR_MAX = 500;
 	ArrayList<Node> nodes = new ArrayList<Node>();
 	ArrayList<Edge> edges = new ArrayList<Edge>();
 	private double maxValueEdges = 0;
@@ -21,11 +21,76 @@ public class GraphGML {
 			addEdges(nbNodes, averageNeighbor);
 
 		}
+		else if (type.equals("H")){
+			addHTopologyNodes(nbNodes);
+			addEdges(nbNodes, averageNeighbor);
+		}
+	}
+
+	public GraphGML(int nbNodes, String type, int averageNeighbor, int posCloneA) {
+		System.out.println("nbNodes" + nbNodes);
+		if (type.equals("square")) {
+			addNodes(nbNodes,posCloneA);
+			addEdges(nbNodes, averageNeighbor);
+
+		}
+		
+	}
+
+	private void addNodes(int nbNodes, int posCloneA) {
+		int i = 0;
+		nodes.add(new Node(i,100,100,"A"));i++;
+		
+		nodes.add(new Node(i,100+posCloneA,100+posCloneA,"B"));i++;
+		nodes.add(new Node(i,0,0,"C"));i++;
+		
+		
+		
+		for (int j = i; j < nbNodes; j++) {
+			int x = random(0, VALEUR_MAX);
+			int y = random(0, VALEUR_MAX);
+			nodes.add(new Node(i, x, y, new String("C")));
+			i++;
+		}
+		
+	}
+
+	private void addHTopologyNodes(int nbNodes) {
+		int i = 0;
+	
+		for (int j = i; j < nbNodes; j++) {
+			int x = random(0, VALEUR_MAX);
+			int y = random(0, VALEUR_MAX);
+			if( inHTopology(x,y)){
+				nodes.add(new Node(i, x, y, new String("C")));
+				i++;
+				System.out.println(i);
+			}
+			
+		}
+		
+	}
+
+	private boolean inHTopology(int x, int y) {
+		if((x>=0&&x<=100)||(x>=400 && x<=500))
+			return true;
+		else if((x>=100&&x<=200)||(x>=300 && x<=400)){
+			if(y<=100&& y>=400)
+				return true;
+			else return false;
+						
+		}else {
+			if(y<=200 && y>=300)
+				return true;
+			else return false;
+						
+		}
+		
 	}
 
 	private void addEdges(int nbNodes, int averageNeighbor) {
 		//float seille[]={62,44,34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 500x500
-		float seille[]={250,44,34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 1000x1000
+		float seille[]={34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 1000x1000
 		
 		int nbEdgesMax = Math.min(nbEdgesClique(nbNodes), (int) (nbNodes * averageNeighbor) / 2);
 		System.out.println(nbNodes + " " + nbEdgesMax);
@@ -34,7 +99,7 @@ public class GraphGML {
 		for (int i = 0; i < nbNodes - 1; i++) {
 			for (int j = i; j < nbNodes; j++) {
 				currentEdge=new Edge(nodes.get(i), nodes.get(j));
-				if(currentEdge.getValue()<seille[(nbNodes/250)-1]){
+				if(true){
 					full = edges.size() >= nbEdgesMax;
 					maxValueEdges = Math.max(maxValueEdges,	currentEdge.getValue());
 					minValueEdges = Math.min(minValueEdges,currentEdge.getValue()	);
@@ -83,37 +148,13 @@ public class GraphGML {
 
 	private void addNodes(int nbNodes) {
 		int i = 0;
-		for (; i < 6; i++) {
-			nodes.add(new Node(i, (i * VALEUR_MAX) / 10, (i * VALEUR_MAX) / 10, new String("A")));
-		}
-		for (; i < 10; i++) {
-			nodes.add(new Node(i, (5 * VALEUR_MAX) / 10, VALEUR_MAX - ((i * VALEUR_MAX) / 10), new String("A")));
-		}
-		nodes.add(new Node(i, 0, VALEUR_MAX / 3, new String("A")));// node10
-		i++;
-		nodes.add(new Node(i, 0, VALEUR_MAX / 2, new String("A")));// node
-																	// 11
-		i++;
-		// Line 0
-		int pas[] = { 0, 2, 5, 8, 10 };
-		for (int j = 0; j < pas.length; j++) {
-			for (int j1 = 0; j1 < pas.length; j1++) {
-				Node node = new Node(i, (VALEUR_MAX / 10) * pas[j], (VALEUR_MAX / 10) * pas[j1], new String("B"));
-
-				nodes.add(node);
-				i++;
-
-			}
-
-		}
-		nodes.add(new Node(i, (VALEUR_MAX / 10), (VALEUR_MAX / 10), new String("B")));
-		i++;
-		nodes.add(new Node(i, (VALEUR_MAX / 10) * 9, (VALEUR_MAX / 10), new String("B")));
-		i++;
-		nodes.add(new Node(i, (VALEUR_MAX / 10), (VALEUR_MAX / 10) * 9, new String("B")));
-		i++;
-		nodes.add(new Node(i, (VALEUR_MAX / 10) * 9, (VALEUR_MAX / 10) * 9, new String("B")));
-		i++;
+		nodes.add(new Node(i,0,0,"A"));i++;
+		
+		nodes.add(new Node(i,50,50,"B"));i++;
+		nodes.add(new Node(i,50,0,"B"));i++;
+		nodes.add(new Node(i,100,0,"B"));i++;
+		nodes.add(new Node(i,250,250,"B"));i++;
+		
 		for (int j = i; j < nbNodes; j++) {
 			int x = random(0, VALEUR_MAX);
 			int y = random(0, VALEUR_MAX);

@@ -74,7 +74,7 @@ public class generateHistogrammeFiles {
 			}
 		}
 
-			int[] sizes = {100,1000,5000};
+			int[] sizes = {100,500,1000,2000,5000};
 			String[] algos= {"RED_pts","LSM_pts","LSM_Walk_pts","SDC_pts"};
 			for( String algo:algos){
 				String s_averageNbMessage="";
