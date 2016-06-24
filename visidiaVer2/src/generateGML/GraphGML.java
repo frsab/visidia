@@ -23,7 +23,7 @@ public class GraphGML {
 		}
 		else if (type.equals("H")){
 			addHTopologyNodes(nbNodes);
-			addEdges(nbNodes, averageNeighbor);
+			//addEdges(nbNodes, averageNeighbor);
 		}
 	}
 
@@ -57,8 +57,29 @@ public class GraphGML {
 
 	private void addHTopologyNodes(int nbNodes) {
 		int i = 0;
-	
-		for (int j = i; j < nbNodes; j++) {
+		Node nodeA=new Node(i,100,100,"T");
+		nodes.add(nodeA);i++;
+		
+		for (int j = 0; j <= 10; j++) {
+			for (int jj = 0; jj <= 10; jj++) {
+				Node node=new Node(i,j*50,jj*50,"F");;
+				if((!node.equals(nodeA))&& inHTopology(node.getX(),node.getY())){
+					nodes.add(node);
+					i++;
+				}
+			}
+		}
+		while (i<nbNodes) {
+			int x = random(0, VALEUR_MAX);
+			int y = random(0, VALEUR_MAX);
+			Node node=new Node(i, x, y, new String("C"));
+			if((!node.equals(nodeA))&& inHTopology(node.getX(),node.getY())){
+				nodes.add(node);
+				i++;
+			}
+		}
+		
+		/*for (int j = i; j < nbNodes; j++) {
 			int x = random(0, VALEUR_MAX);
 			int y = random(0, VALEUR_MAX);
 			if( inHTopology(x,y)){
@@ -67,24 +88,28 @@ public class GraphGML {
 				System.out.println(i);
 			}
 			
-		}
+		}*/
 		
 	}
 
 	private boolean inHTopology(int x, int y) {
 		if((x>=0&&x<=100)||(x>=400 && x<=500))
 			return true;
-		else if((x>=100&&x<=200)||(x>=300 && x<=400)){
-			if(y<=100&& y>=400)
+		if((x>=100 && x<=200)||(x>=300 && x<=400)){
+			if((y>=0 && y<=100)||(y>=400 && y<=500))
 				return true;
-			else return false;
-						
-		}else {
-			if(y<=200 && y>=300)
-				return true;
-			else return false;
+
 						
 		}
+		if((x>=199 && x<=301)){
+			if((y>=0 && y<=200)||(y>=300 && y<=500))
+				return true;
+			System.out.println(x+"  "+y);
+			
+		}
+		
+		return false;
+		
 		
 	}
 

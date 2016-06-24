@@ -52,6 +52,12 @@ public class Node {
 		return (int) position.getY();
 
 	}
+    @Override
+    public boolean equals(Object obj) {
+    	return this.getPosition().equals(((Node) obj).getPosition());
+      
+       
+    }
 
 
 }
