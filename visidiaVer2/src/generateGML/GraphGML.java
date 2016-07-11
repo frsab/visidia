@@ -1,4 +1,5 @@
 package generateGML;
+import java.awt.Point;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,8 +24,59 @@ public class GraphGML {
 		}
 		else if (type.equals("H")){
 			addHTopologyNodes(nbNodes);
-			//addEdges(nbNodes, averageNeighbor);
+			addEdges(nbNodes, averageNeighbor);
 		}
+		else if (type.equals("4D")){
+			add4DTopologyNodes(nbNodes);
+			addEdges(nbNodes, averageNeighbor);
+		}
+	}
+
+	private void add4DTopologyNodes(int nbNodes) {
+		int i = 0;
+		System.out.println("T");
+		System.out.println(i);
+		Node nodeA=new Node(i,50,50,"T");
+		nodes.add(nodeA);i++;
+		System.out.println("F");
+		for (int j = 0; j <= 10; j++) {
+			for (int jj = 0; jj <= 10; jj++) {
+				Node node=new Node(i,j*50,jj*50,"F");;
+				if((!node.equals(nodeA))&& in4DTopology(node.getX(),node.getY())){
+					System.out.println(i);
+					nodes.add(node);
+					i++;
+				}
+			}
+		}
+		while (i<nbNodes) {
+			int x = random(0, VALEUR_MAX);
+			int y = random(0, VALEUR_MAX);
+			Node node=new Node(i, x, y, new String("C"));
+			if((!node.equals(nodeA))&& in4DTopology(node.getX(),node.getY())){
+				nodes.add(node);
+				i++;
+			}
+		}		
+		
+	}
+
+	private boolean in4DTopology(int x, int y) {
+
+		Point p= new Point(x,y);
+
+		Point p1= new Point(150,150);
+		Point p2= new Point(350,150);
+		Point p3= new Point(150,350);
+		Point p4= new Point(350,350);
+		double d1=p.distance(p1);
+		double d2=p.distance(p2);
+		double d3=p.distance(p3);
+		double d4=p.distance(p4);
+		if((d1>= 50)&(d2 >= 50)&(d3 >= 50)&(d4 >= 50)){
+			return true;
+		}
+		return false;
 	}
 
 	public GraphGML(int nbNodes, String type, int averageNeighbor, int posCloneA) {
@@ -77,19 +129,7 @@ public class GraphGML {
 				nodes.add(node);
 				i++;
 			}
-		}
-		
-		/*for (int j = i; j < nbNodes; j++) {
-			int x = random(0, VALEUR_MAX);
-			int y = random(0, VALEUR_MAX);
-			if( inHTopology(x,y)){
-				nodes.add(new Node(i, x, y, new String("C")));
-				i++;
-				System.out.println(i);
-			}
-			
-		}*/
-		
+		}		
 	}
 
 	private boolean inHTopology(int x, int y) {
@@ -115,7 +155,7 @@ public class GraphGML {
 
 	private void addEdges(int nbNodes, int averageNeighbor) {
 		//float seille[]={62,44,34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 500x500
-		float seille[]={34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 1000x1000
+	//	float seille[]={34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 1000x1000
 		
 		int nbEdgesMax = Math.min(nbEdgesClique(nbNodes), (int) (nbNodes * averageNeighbor) / 2);
 		System.out.println(nbNodes + " " + nbEdgesMax);
