@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 import visidia.VisidiaMain;
 
-public class Scenarios_A_B_output {
+public class generateGnuplotFile {
 	private static final String GNUPLOT_FOLDER = "./gnuplotFiles/";
 	
 

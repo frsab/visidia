@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-public class Main {
+public class generateFilesWithAverageValue {
 	private static final String RESULT_FILES_FOLDER = "./traceSquareAllsAlgosResult/";
 	public static final String COMPILED_RESULT_FILES_FOLDER = "./traceSquareAllsAlgosResult_compiled/";
 	
