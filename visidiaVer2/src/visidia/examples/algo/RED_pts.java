@@ -25,7 +25,7 @@ public class RED_pts extends Routing {
 	public static final int NoWitnessPoints = 1;
 
 	private static Boolean receiving = true;
-	private static Vector<Point> WitnessPoints = new Vector<Point>();
+	private static Vector<Point> witnessPoints = new Vector<Point>();
 	private static Boolean cloneDetected = new Boolean(false);
 
 	// Set to true so that comporomised and cloned nodes drop locaiotn claims
@@ -44,17 +44,17 @@ public class RED_pts extends Routing {
 	}
 
 	private void fixWitnessPoints() {
-		synchronized (WitnessPoints) {
-			if (this.WitnessPoints.size() < this.NoWitnessPoints) {
-				this.WitnessPoints.addElement(this.getRandPoint());
+		synchronized (witnessPoints) {
+			if (this.witnessPoints.size() < this.NoWitnessPoints) {
+				this.witnessPoints.addElement(this.getRandPoint());
 			}
 		}
 	}
 
 	private void clearWitnessPoints() {
-		synchronized (WitnessPoints) {
-			if (this.WitnessPoints.size() != 0) {
-				this.WitnessPoints = new Vector<Point>();
+		synchronized (witnessPoints) {
+			if (this.witnessPoints.size() != 0) {
+				this.witnessPoints = new Vector<Point>();
 				iterationNumber += 1;
 			}
 		}
@@ -83,10 +83,10 @@ public class RED_pts extends Routing {
 	private void transmitClaims() {
 		if (this.isMalacious && this.dropLocationClaims)
 			return;
-		synchronized (WitnessPoints) {
+		synchronized (witnessPoints) {
 			for (SensorMessage msg : this.claims) {
 				if (this.shouldISend()) {
-					for (Point dest : this.WitnessPoints) {
+					for (Point dest : this.witnessPoints) {
 						msg.setDest(dest);
 						// System.out.println(dest);
 						this.forwardMessage(dest, msg);
@@ -159,7 +159,7 @@ setConfiguration();
 		// Step 0
 		this.fixWitnessPoints();
 		if (this.getId() == 1)
-			for (int i = 0; i < WitnessPoints.size(); i++) {
+			for (int i = 0; i < witnessPoints.size(); i++) {
 				;// System.out.println("Wtiness point position "+ i+" :
 					// "+(WitnessPoints.get(i)).getX()+"
 					// "+(WitnessPoints.get(i)).getY());

@@ -393,7 +393,7 @@ public class Routing extends SynchronousAlgorithm {
 	public void compromise(int percent) {
 		synchronized (compromised) {
 			if (!compromised) {
-				Graph g = this.proc.getServer().getConsole().getGraph();
+				Graph g = this.getProc().getServer().getConsole().getGraph();
 				for (int i = 0; i < this.getNetSize(); i++)
 					g.getVertex(i).setLabel(new String("N"));
 				this.clone(0);
@@ -471,7 +471,7 @@ public class Routing extends SynchronousAlgorithm {
 	}
 
 	public void clone(double proximity) {
-		Graph g = this.proc.getServer().getConsole().getGraph();
+		Graph g = this.getProc().getServer().getConsole().getGraph();
 		int C1, C2;
 		C1 = rand.nextInt(this.getNetSize());
 		while (!(g.getVertex(C1).getPos().getX() > x1Clone1 && g.getVertex(C1).getPos().getX() < x2Clone1
@@ -503,7 +503,7 @@ public class Routing extends SynchronousAlgorithm {
 			}
 		}
 		int i = this.getId();
-		Graph g = this.proc.getServer().getConsole().getGraph();
+		Graph g = this.getProc().getServer().getConsole().getGraph();
 		for (int j = i + 1; j < this.getNetSize(); j++) {
 			Vertex v = g.getVertex(j);
 			if (this.getDist(this.vertex.getPos(), v.getPos()) < proximity) {

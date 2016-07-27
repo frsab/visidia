@@ -76,9 +76,9 @@ public abstract class RuleAlgorithm extends Algorithm {
 	 * @param proc the new message process
 	 */
 	public void setMessageProcess(MessageProcess proc) {
-		this.proc = proc;
+		this.setProc(proc);
 		if (this.synal != null)
-			this.synal.proc = proc;
+			this.synal.setProc(proc);
 	}
 
 	public final SynchronizationAlgorithm getSynchronizationAlgorithm() {

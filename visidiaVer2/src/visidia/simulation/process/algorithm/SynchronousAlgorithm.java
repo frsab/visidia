@@ -65,7 +65,7 @@ public abstract class SynchronousAlgorithm extends Algorithm {
 	 * @return the pulse
 	 */
 	public final int getPulse() {
-		return this.proc.getServer().getConsole().getPulse();
+		return this.getProc().getServer().getConsole().getPulse();
 	}
 
 	/**
@@ -79,7 +79,7 @@ public abstract class SynchronousAlgorithm extends Algorithm {
 	public final int nextPulse() {
 		int AmITheLastOne = 1; //if just AmITheLastOne; -> error might not have been initialized
 		try {
-			Console console = this.proc.getServer().getConsole();
+			Console console = this.getProc().getServer().getConsole();
 			Object lockSync = console.getLockSyncObject();
 			synchronized (lockSync) {
 				int countNextPulse = (console.getCountNextPulse() + 1) % (console.getNbProcesses() - console.getTerminatedThreadCount());
@@ -87,8 +87,8 @@ public abstract class SynchronousAlgorithm extends Algorithm {
 				AmITheLastOne = countNextPulse;
 				if (countNextPulse == 0) {
 					try {
-						NewPulseCommand cmd = new NewPulseCommand(proc.getId(), this.getPulse());
-						proc.getServer().sendToConsole(cmd);
+						NewPulseCommand cmd = new NewPulseCommand(getProc().getId(), this.getPulse());
+						getProc().getServer().sendToConsole(cmd);
 					} catch (Exception e) {
 					}
 					console.setPulse(this.getPulse() + 1);
@@ -133,7 +133,7 @@ public abstract class SynchronousAlgorithm extends Algorithm {
 	 */
 	protected final Message getNextMessage(DoorPulseCriterion dpc) {
 		try {
-			this.proc.runningControl();
+			this.getProc().runningControl();
 			return this.getNextMessageCriterion(dpc);
 		} catch (InterruptedException e) {
 			throw new SimulationAbortError();
@@ -162,8 +162,8 @@ public abstract class SynchronousAlgorithm extends Algorithm {
 	 */
 	protected final boolean existMessage(DoorPulseCriterion dpc) {
 		try {
-			this.proc.runningControl();
-			return !this.proc.emptyVQueue(dpc);
+			this.getProc().runningControl();
+			return !this.getProc().emptyVQueue(dpc);
 		} catch (Exception e) {
 			throw new SimulationAbortError();
 		}
@@ -194,7 +194,7 @@ public abstract class SynchronousAlgorithm extends Algorithm {
 	 * @throws InterruptedException the interrupted exception
 	 */
 	private Message getNextMessageCriterion(DoorPulseCriterion dpc) throws InterruptedException {
-		MessagePacket msgPacket = (MessagePacket) this.proc.getNextMessagePacketNoWait(dpc);
+		MessagePacket msgPacket = (MessagePacket) this.getProc().getNextMessagePacketNoWait(dpc);
 
 		if (msgPacket != null) {
 			dpc.setDoor(msgPacket.receiverDoor());

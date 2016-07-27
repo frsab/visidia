@@ -9,6 +9,7 @@ import visidia.simulation.process.messages.VectorMessage;
 import visidia.simulation.process.messages.Message;
 import visidia.simulation.process.messages.Door;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 import java.awt.Color;
@@ -54,4 +55,23 @@ public class WitnessCache{
 	public int size() {
 		return cache.size();
 	}
-};
+	public boolean addClaim(MobileSensorMessage msg) {
+		String label=msg.getUIDsource();//.getUID().toString();
+		if( !cache.containsKey(label) ){
+			cache.put(label, msg.getClaim());	
+		}		 
+		Iterator it = cache.entrySet().iterator();		    
+		while (it.hasNext()) {		        
+			Map.Entry pair = (Map.Entry)it.next();
+		    if(msg.getClaim().equals(pair.getValue())){
+		    	it.remove(); // avoids a ConcurrentModificationException
+		    	detection = true;
+				clonedLabels.addElement(label);
+				System.out.println("detected");
+				RedMobile.cloneDetected=true;
+				return true;
+		    }
+		}
+		return false;
+	}
+}

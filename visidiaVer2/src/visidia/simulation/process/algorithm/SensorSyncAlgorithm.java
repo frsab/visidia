@@ -34,7 +34,7 @@ public abstract class SensorSyncAlgorithm extends SynchronousAlgorithm {
 		//waiting for all the Vertex to want to move.
 		this.nextPulseStopDisplay();
 		//moving
-		SensorGraph sensorGraph = (SensorGraph) this.proc.getServer().getConsole().getGraph();
+		SensorGraph sensorGraph = (SensorGraph) this.getProc().getServer().getConsole().getGraph();
 		Sensor sensor = (Sensor) sensorGraph.getVertex(sensorId);
 		SupportVertex svertexFrom = sensor.getSupportVertex();
 		SensorMover mover = sensor.getSensorMover();
@@ -44,7 +44,7 @@ public abstract class SensorSyncAlgorithm extends SynchronousAlgorithm {
 			SupportVertex svertexTo = sensor.getSupportVertex();
 
 			MoveSensorCommand cmd = new MoveSensorCommand(sensor.getId(), svertexFrom.getId(), svertexTo.getId());
-			proc.getServer().sendToConsole(cmd);
+			getProc().getServer().sendToConsole(cmd);
 		} catch (Exception e) {
 		}
 		//waiting for all the Vertex to finish moving.
@@ -63,7 +63,7 @@ public abstract class SensorSyncAlgorithm extends SynchronousAlgorithm {
 	 * @param sensorId the sensor id
 	 */
 	public final void moveAfterEnd(int sensorId) {
-		Console console = proc.getServer().getConsole();
+		Console console = getProc().getServer().getConsole();
 		int terminatedAlgoStillMovingCount = console.getTerminatedAlgoStillMovingCount() + 1;
 		console.setTerminatedAlgoStillMovingCount(terminatedAlgoStillMovingCount);
 
@@ -86,7 +86,7 @@ public abstract class SensorSyncAlgorithm extends SynchronousAlgorithm {
 	 */
 	private void pushSensorNumberDisplayOnOffEvent(boolean display) throws InterruptedException {
 		DisplaySensorNumberCommand cmd = new DisplaySensorNumberCommand(display);
-		proc.getServer().sendToConsole(cmd);
+		getProc().getServer().sendToConsole(cmd);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public abstract class SensorSyncAlgorithm extends SynchronousAlgorithm {
 		// If nothing is done.
 
 		// get sensors
-		SensorGraph sensorGraph = (SensorGraph) proc.getServer().getConsole().getGraph();
+		SensorGraph sensorGraph = (SensorGraph) getProc().getServer().getConsole().getGraph();
 		int nbSensors = sensorGraph.order();
 		Sensor[] sensors = new Sensor[nbSensors];
 		int cpt = 0;
@@ -132,12 +132,12 @@ public abstract class SensorSyncAlgorithm extends SynchronousAlgorithm {
 				if (distances[sensor2.getSupportVertex().getId()] > sensorCommunicationDistance) {
 					if (connectedSensors) {
 						RemoveEdgeCommand cmd = new RemoveEdgeCommand(sensor1.getId(), sensor2.getId());
-						proc.getServer().sendToConsole(cmd);
+						getProc().getServer().sendToConsole(cmd);
 					}
 				} else {
 					if (!connectedSensors) {
 						AddEdgeCommand cmd = new AddEdgeCommand(sensor1.getId(), sensor2.getId());
-						proc.getServer().sendToConsole(cmd);
+						getProc().getServer().sendToConsole(cmd);
 					}					
 				}
 			}
@@ -147,7 +147,7 @@ public abstract class SensorSyncAlgorithm extends SynchronousAlgorithm {
 				int nbHostedSensors = supportVertex.getNbHostedSensors();
 				if (nbHostedSensors > 1) {
 					SetSensorNumberCommand cmd = new SetSensorNumberCommand(supportVertex.getId());
-					proc.getServer().sendToConsole(cmd);
+					getProc().getServer().sendToConsole(cmd);
 				}
 			}
 		}

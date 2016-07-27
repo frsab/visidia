@@ -41,7 +41,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	private static final long serialVersionUID = -2918434583960346926L;
 
 	/** The process. */
-	transient protected MessageProcess proc = null;
+	private transient MessageProcess proc = null;
 
 	protected transient Vertex vertex;
 	protected transient ArrayList<Integer> activeDoors;
@@ -91,9 +91,9 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return the arity
 	 */
 	protected final int getArity() {
-		if (proc == null) return 0;
-		proc.runningControl();
-		return proc.getVertex().degree();
+		if (getProc() == null) return 0;
+		getProc().runningControl();
+		return getProc().getVertex().degree();
 	}
 
 	/**
@@ -102,9 +102,9 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return the id
 	 */
 	protected final int getId() {
-		if (proc == null) return 0;
-		proc.runningControl();
-		return proc.getVertex().getId();
+		if (getProc() == null) return 0;
+		getProc().runningControl();
+		return getProc().getVertex().getId();
 	}
 
 	/**
@@ -114,7 +114,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 */
 	protected final int getNetSize() {
 		try {
-			return proc.getServer().getConsole().getGraph().order();
+			return getProc().getServer().getConsole().getGraph().order();
 		} catch (Exception e) {
 			return 0;
 		}
@@ -126,8 +126,8 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return the oriented doors
 	 */
 	protected final Enumeration<Integer> getOrientedDoors() {
-		if (proc == null) return null;
-		Vertex vertex = proc.getVertex();
+		if (getProc() == null) return null;
+		Vertex vertex = getProc().getVertex();
 		Vector<Integer> oriented = new Vector<Integer>();
 		int degree = vertex.degree();
 
@@ -149,8 +149,8 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return true, if is incoming door
 	 */
 	protected final boolean isIncomingDoor(int door) {
-		if (proc == null) return false;
-		Vertex vertex = proc.getVertex();
+		if (getProc() == null) return false;
+		Vertex vertex = getProc().getVertex();
 		Vertex v = vertex.getNeighborByDoor(door);
 		Edge edge = vertex.getEdge(v);
 		return (!edge.isOriented() || edge.getDestination().equals(vertex));
@@ -165,8 +165,8 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return true, if is outgoing door
 	 */
 	protected final boolean isOutgoingDoor(int door) {
-		if (proc == null) return false;
-		Vertex vertex = proc.getVertex();
+		if (getProc() == null) return false;
+		Vertex vertex = getProc().getVertex();
 		Vertex v = vertex.getNeighborByDoor(door);
 		Edge edge = vertex.getEdge(v);
 		return (!edge.isOriented() || edge.getOrigin().equals(vertex));
@@ -194,10 +194,10 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @param tag the tag
 	 */
 	private void putTaggedProperty(String key, Object value, int tag) {
-		if (proc == null) return;
+		if (getProc() == null) return;
 		try {
 			VisidiaProperty prop = new VisidiaProperty(key, value, tag);
-			proc.setNodeProperty(proc.getId(), prop);
+			getProc().setNodeProperty(getProc().getId(), prop);
 		} catch (InterruptedException e) {
 			throw new SimulationAbortError();
 		}
@@ -221,8 +221,8 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @param value the value
 	 */
 	protected final void putProperty(String key, Object value) {
-		if (proc == null) return;
-		Vertex v = proc.getVertex();
+		if (getProc() == null) return;
+		Vertex v = getProc().getVertex();
 		VisidiaProperty prop = v.getVisidiaProperty(key);
 		if (prop == null) putTaggedProperty(key, value, VisidiaProperty.Tag.USER_PROPERTY);
 		else putTaggedProperty(key, value, prop.getTag());
@@ -236,8 +236,8 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return the property value, or null if the key does not exist.
 	 */
 	protected final Object getProperty(String key) {
-		if (proc == null) return null;
-		return proc.getNodeProperty(key);
+		if (getProc() == null) return null;
+		return getProc().getNodeProperty(key);
 	}
 
 	/**
@@ -258,11 +258,11 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @param value the value
 	 */
 	protected final void setLocalProperty(Object key, Object value) {
-		if (proc == null) return;
+		if (getProc() == null) return;
 		properties.setValue(key, value);
 		try {
 			VisidiaProperty prop = new VisidiaProperty(key, value, VisidiaProperty.Tag.USER_PROPERTY);
-			proc.setNodeProperty(proc.getId(), prop);
+			getProc().setNodeProperty(getProc().getId(), prop);
 		} catch (InterruptedException e) {
 			throw new SimulationAbortError();
 		}
@@ -306,8 +306,8 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return the property value, or null if the key does not exist.
 	 */
 	protected final Object getEdgeProperty(int door, Object key) {
-		if (proc == null) return null;
-		return proc.getEdgeProperty(proc.getVertex(), door, key);
+		if (getProc() == null) return null;
+		return getProc().getEdgeProperty(getProc().getVertex(), door, key);
 	}
 
 	/**
@@ -318,8 +318,8 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @param value the value
 	 */
 	protected final void setEdgeProperty(int door, Object key, Object value) {
-		if (proc == null) return;
-		proc.setEdgeProperty(proc.getVertex(), door, key, value);
+		if (getProc() == null) return;
+		getProc().setEdgeProperty(getProc().getVertex(), door, key, value);
 	}
 
 	/**
@@ -331,8 +331,8 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @param tag the tag
 	 */
 	protected final void setEdgeProperty(int door, Object key, Object value, boolean displayable) {
-		if (proc == null) return;
-		proc.setEdgeProperty(proc.getVertex(), door, key, value, displayable);
+		if (getProc() == null) return;
+		getProc().setEdgeProperty(getProc().getVertex(), door, key, value, displayable);
 	}
 
 	/*************************/
@@ -347,10 +347,10 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 */
 
 	protected final void setDoorState(EdgeState st, int door) {
-		if (proc == null) return;
-		proc.runningControl();
+		if (getProc() == null) return;
+		getProc().runningControl();
 		try {
-			proc.changeEdgeState(proc.getVertex(), door, st);
+			getProc().changeEdgeState(getProc().getVertex(), door, st);
 
 			if(st.getClass()== MarkedState.class)
 				addMarkStep(door);
@@ -361,10 +361,10 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	}
 
 	protected final void addStep(Step st, Object obj,Object obj2){
-		if (proc == null) return;
-		proc.runningControl();
+		if (getProc() == null) return;
+		getProc().runningControl();
 		try {
-			proc.executeStep(proc.getVertex(), obj, obj2, st);
+			getProc().executeStep(getProc().getVertex(), obj, obj2, st);
 		} catch (InterruptedException e) {
 			throw new SimulationAbortError();
 		}
@@ -414,11 +414,11 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return true, if the message has been sent
 	 */
 	protected boolean sendTo(int door, Message msg) {
-		if (proc == null) return false;
-		proc.runningControl();
+		if (getProc() == null) return false;
+		getProc().runningControl();
 		boolean b;
 		try {
-			b = proc.sendMessageTo(door, msg);
+			b = getProc().sendMessageTo(door, msg);
 		} catch (InterruptedException e) {
 			throw new SimulationAbortError();
 		}
@@ -446,11 +446,11 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return the message
 	 */
 	protected final Message receiveFrom(int door) {
-		if (proc == null) return null;
-		proc.runningControl();
+		if (getProc() == null) return null;
+		getProc().runningControl();
 		Message msg = null;
 		try {
-			msg = proc.getNextMessage(null, new DoorCriterion(door));
+			msg = getProc().getNextMessage(null, new DoorCriterion(door));
 		} catch (InterruptedException e) {
 			throw new SimulationAbortError();
 		}
@@ -467,7 +467,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return the message
 	 */
 	protected final Message receiveFrom(int door, MessageCriterion mc) {
-		proc.runningControl();
+		getProc().runningControl();
 
 		DoorCriterion dc = new DoorCriterion(door);
 		MessagePacketCriterion mpc = new MessagePacketCriterion(mc);
@@ -477,7 +477,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 
 		Message msg = null;
 		try {
-			msg = proc.getNextMessage(null, c);
+			msg = getProc().getNextMessage(null, c);
 		} catch (InterruptedException e) {
 			throw new SimulationAbortError();
 		}
@@ -495,10 +495,10 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @return the message
 	 */
 	protected Message receive(Door door) {
-		proc.runningControl();
+		getProc().runningControl();
 		Message msg = null;
 		try {
-			msg = proc.getNextMessage(door, null);
+			msg = getProc().getNextMessage(door, null);
 		} catch (InterruptedException e) {
 			throw new SimulationAbortError();
 		}
@@ -517,7 +517,7 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 * @param proc the new message process
 	 */
 	public void setMessageProcess(MessageProcess proc) {
-		this.proc = proc;
+		this.setProc(proc);
 	}
 
 	/**
@@ -525,15 +525,23 @@ public abstract class Algorithm implements Cloneable, Runnable, Serializable {
 	 */
 	public final void run() {
 
-		vertex = proc.getVertex();
+		vertex = getProc().getVertex();
 		properties = new PropertyTable();
 
 		this.init();
 		try {
-			proc.terminatedAlgorithm();
+			getProc().terminatedAlgorithm();
 		} catch (InterruptedException e) {
 			throw new SimulationAbortError();
 		}
+	}
+
+	public MessageProcess getProc() {
+		return proc;
+	}
+
+	public void setProc(MessageProcess proc) {
+		this.proc = proc;
 	}
 
 }
