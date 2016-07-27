@@ -65,6 +65,26 @@ public class SensorMessage extends Message {
 		this.UID = new Integer(msg.UID);
 	}
 
+	public SensorMessage(String data, Point dest,Point src,Point locClaim) {
+		this.data = data;
+		this.lastNodePosition=src;
+		this.locationClaim = locClaim;
+		this.dest = dest;//new Point(-1,-1);
+		this.walkCounter = new Integer(0);
+		this.UID = new Integer(r.nextInt());
+	}
+
+	public SensorMessage(SensorMessage msg, Point destFinal) {
+		this.setType(msg.getType());
+		this.lastNodePosition=msg.lastNodePosition;
+		//this.path=msg.path;
+		//this.data = new String(msg.data);
+		this.dest = destFinal;
+		this.locationClaim = new Point(msg.locationClaim);
+		this.walkCounter = new Integer(msg.walkCounter);
+		this.UID = new Integer(msg.UID);
+	}
+
 	public Integer getUID(){
 		return new Integer(this.UID);
 	}
