@@ -2,6 +2,7 @@ package visidia.examples.algo;
 
 import java.util.UUID;
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
 import java.util.Vector;
@@ -15,8 +16,7 @@ public class RedMobile extends SensorSyncAlgorithm {
 	/**
 	 * 
 	 */
-	private static UUID uniqueKey; //= UUID.randomUUID(); 
-	  
+	private static UUID uniqueKey;   
 	private static final long serialVersionUID = 8437452624823359954L;
 	private static final int NoWitnessPoints = 1;
 	private static double THRESHOLD = 0.90;
@@ -26,15 +26,17 @@ public class RedMobile extends SensorSyncAlgorithm {
 	protected static Double yMax = new Double(-INF);
 	protected static Double xMin = new Double(+INF);
 	protected static Double yMin = new Double(+INF);
-	protected Vector<Point> neighborLocs;
+	protected HashMap<Integer,Point> neighborLocs;
 	private static Vector<Point> witnessPoints = new Vector<Point>();
 	protected Random rand = new Random();
-	private WitnessCache cache= new WitnessCache();
+	private WitnessCacheMobile cache= new WitnessCacheMobile();
 	Stack<MobileSensorMessage> claims = new Stack<MobileSensorMessage>();
 	private String UID;
 	private Point lastPos = new Point();
 	private Random randMove = new Random();
 	private Point pos;
+
+	private static String originalUID_Node;
 
 	@Override
 	public Object clone() {
@@ -44,27 +46,22 @@ public class RedMobile extends SensorSyncAlgorithm {
 	@Override
 	public void init() {
 		
+		
 		generateUID();
-		this.nextPulse();		
-		setConfiguration();
-		this.nextPulse();
-		setUpRouting();
-		this.nextPulse();
-		fixWitnessPoints();
-		this.nextPulse();
-		makeFirstMessage();
-		this.nextPulse();
+		this.nextPulse();	
+		System.out.println(this.getId()+" "+UID);
+		
+		setConfiguration();		this.nextPulse();
+		setUpRouting();		this.nextPulse();
+		fixWitnessPoints();		this.nextPulse();
+		//if(this.getId()==0)	for (int i = 0; i < witnessPoints.size(); i++) {System.out.println("WP "+i+witnessPoints.get(i));}
+		makeFirstMessage();		this.nextPulse();
 
 		while (!cloneDetected) {
-
-			move(randMove);
-			this.nextPulse();
-			updateNeighborLocs();
-			this.nextPulse();
-			sendMessage();
-			this.nextPulse();
-			receiveMessage();
-			this.nextPulse();
+			move(randMove);			this.nextPulse();
+			updateNeighborLocs();			this.nextPulse();
+			sendMessage();			this.nextPulse();
+			receiveMessage();			this.nextPulse();
 		}
 	}
 
@@ -76,71 +73,79 @@ public class RedMobile extends SensorSyncAlgorithm {
 	}
 
 	private void updateNeighborLocs() {
-		neighborLocs.removeAllElements();
+		neighborLocs.clear();
 		int arity = this.getArity();
 		for (int i = 0; i < arity; i++)
-			this.neighborLocs.addElement(this.vertex.getNeighborByDoor(i).getPos());
+			this.neighborLocs.put(new Integer(i), this.vertex.getNeighborByDoor(i).getPos());
+		//	this.neighborLocs.addElement(this.vertex.getNeighborByDoor(i).getPos());
+		
 	}
 
 	private void receiveMessage() {
 		Door d = new Door();
+		if(!claims.empty()){
+			String strClaims=claims.toString();
+			System.out.println(this.getId()+" à envoyer déjà existant \n"+"claims."+strClaims+"\n____________________");
+			}
 		while (this.anyMsg()) {
-
 			MobileSensorMessage msg = (MobileSensorMessage) this.receive(d);
-			//System.out.println(this.getId()+" "+msg);
+			this.claims.push(new MobileSensorMessage(msg));
 			if (msg.getDest().equals(new Point(-1, -1))) {
 				//System.out.println("witnessPoints size=" + witnessPoints.size());
 				for (Point destFinal : witnessPoints) {
 					this.claims.push(new MobileSensorMessage(msg, destFinal));
 				}
-				cache.addClaim(msg);
 			} else {
 				this.claims.push(new MobileSensorMessage(msg));
 			}
 
 		}
+		if(!this.claims.empty())
+			this.putProperty("label", new String("A"));
+		else
+			this.putProperty("label", new String("K"));
 
 	}
 
 	private void sendMessage() {
 		MobileSensorMessage m = null;
-		if (getArity() >1) {
+		if ((!this.claims.empty())&&(getArity() >0)) {
+		//	System.out.println(this.getId()+" getArity()="+getArity());
 
 			/*
 			 * if (!this.claims.empty()) m = (SensorMessage) claims.pop();
 			 */
 			while (!this.claims.empty()) {
-				m = (MobileSensorMessage) claims.pop();
-				/*
-				 * //System.out.println(this.getId()+"message=" + m);
-				 * m.setLastNodePosition(this.vertex.getPos());
-				 * //System.out.println(this.getId()+"message=" + m);
-				 */
-				if (m.getDest().equals(new Point(-1, -1))) {
-					sendAll(m);
+				synchronized(claims){
+					m = (MobileSensorMessage) claims.pop();
+					System.out.println(this.getId()+"messageinClaim=" + m);
+					 /* m.setLastNodePosition(this.vertex.getPos());
+					 * //System.out.println(this.getId()+"message=" + m);
+					 */
+					if (m.getDest().equals(new Point(-1, -1))) {
+						System.out.println(this.getId()+"broadcast=" + m);
+						sendAll(m);
+					}
+					else if (!snedGPSR(m)) {
+						cache.addClaim(m);
+					}
 				}
-				/*
-				 * if if (m.getLastNodePosition().equals(new Point(-1, -1))) for
-				 * (int i = 0; i < this.getArity(); i++) { this.sendTo(i, m); }
-				 * 
-				 * else
-				 */
-				else {
-					snedGPSR(m);
 
-				}
 
 			}
 		}
 	}
 
-	private void snedGPSR(MobileSensorMessage msg) {
+	private boolean snedGPSR(MobileSensorMessage msg) {
+		System.out.println(this.getId()+" GPSR messageinClaim=" + msg+"msg.getDest"+msg.getDest().getX()+" "+msg.getDest().getY());
 		Point finalDestRrouting = msg.getDest();
-		int destDoor = 
-				this.getClosestDoor(finalDestRrouting, msg.getLastNodePosition());
+		int destDoor = this.getClosestDoor(finalDestRrouting, msg.getLastNodePosition());
 		if (destDoor != -1) {
+			System.out.println(this.getId()+" "+msg+"toDoor"+destDoor);
 			this.sendTo(destDoor, new MobileSensorMessage((MobileSensorMessage) msg));
+			return true;
 		}
+		return false;
 	}
 
 	private int getClosestDoor(Point finalDestRrouting, Point lastNodePosition) {
@@ -184,7 +189,7 @@ public class RedMobile extends SensorSyncAlgorithm {
 				double currentAngle = 361;
 				try {
 					currentAngle = angleBetweenTwoPointsWithFixedPoint(this.vertex.getPos(),
-							neighborLocs.elementAt(srcDoor), neighborLocs.elementAt(i));
+							neighborLocs.get(new Integer(srcDoor)), neighborLocs.get(new Integer(i)));
 					// //System.out.println(i+" : "+currentAngle);
 					if (minAngleValue > currentAngle) {
 						minAngleDoor = i;
@@ -237,7 +242,7 @@ public class RedMobile extends SensorSyncAlgorithm {
 
 		for (int i = 0; i < neighborLocs.size(); i++) {
 			if (i != srcDoor) {
-				minDist = Math.min(minDist, finalDestRrouting.distance(neighborLocs.elementAt(i)));
+				minDist = Math.min(minDist, finalDestRrouting.distance(neighborLocs.get(new Integer(i))));
 				nearestNodeDoor = i;
 			}
 		}
@@ -250,7 +255,7 @@ public class RedMobile extends SensorSyncAlgorithm {
 	private int getSrcDoor(Point lastNodePosition) {
 		int srcDoor = -1;
 		for (int i = 0; i < neighborLocs.size(); i++) {
-			if (lastNodePosition.equals(neighborLocs.elementAt(i))) {
+			if (lastNodePosition.equals(neighborLocs.get(new Integer((i))))) {
 				srcDoor = i;
 				// minDist = this.getDist(p,neighborLocs.elementAt(i));
 			}
@@ -267,30 +272,28 @@ public class RedMobile extends SensorSyncAlgorithm {
 			Point srcPt=new Point(-1, -1);
 			Point destPt=new Point(-1, -1);
 			Point  factoryPos=this.vertex.getPos();
-			claims.push(new MobileSensorMessage(uid, srcPt,destPt,factoryPos ));
+			MobileSensorMessage mm=new MobileSensorMessage(uid, srcPt,destPt,factoryPos );
+			System.out.println(this.getId()+mm.toShow());
+			claims.push(mm);
 
 			//claims.addElement();
 		}
 	}
 
 	private void move(Random rand) {
-		int itMayMove = rand.nextInt(5); // Entre 0 et 1
-		if (this.vertex.getPos().equals(lastPos))
-			;// //System.out.println(lastPos + "inchangée" +
-				// this.vertex.getPos());
-		else if ((this.vertex.getPos().getX() != lastPos.getX()) && (this.vertex.getPos().getY() != lastPos.getY()))
-			;// //System.out.println(this.getId() + "oblique" + lastPos + " " +
-				// this.vertex.getPos());
-
-		lastPos = new Point(this.vertex.getPos());
-		// //System.out.println("sortir de l'etat sleep"+this.getId()+"
-		// "+nombre+" "+this.vertex.getPos().x+" "+this.vertex.getPos().y+"
-		// ");
-		if (itMayMove != 0)
-			this.move(this.getId());
-		else
-			;// //System.out.println("move with " + itMayMove);
-
+		boolean dynamic=false ;
+		int dynamicr = rand.nextInt(10);
+		if(dynamicr==0) dynamic=true ;
+		if(dynamic){
+				int itMayMove = rand.nextInt(5); // Entre 0 et 1
+				//if (this.vertex.getPos().equals(lastPos))
+				if (itMayMove != 0)
+					this.move(this.getId());	
+		}
+		try {
+			Thread.sleep(600);
+		} catch (Exception e) {
+		}
 	}
 
 
@@ -314,9 +317,9 @@ public class RedMobile extends SensorSyncAlgorithm {
 		this.updatePosition();
 		this.updateGraphSize();
 		int noOfNeighbors = this.getArity();
-		this.neighborLocs = new Vector<Point>();
+		this.neighborLocs = new HashMap();
 		for (int i = 0; i < noOfNeighbors; i++)
-			this.neighborLocs.addElement(this.vertex.getNeighborByDoor(i).getPos());
+			this.neighborLocs.put(new Integer(i), this.vertex.getNeighborByDoor(i).getPos());
 
 	}
 
@@ -357,6 +360,13 @@ public class RedMobile extends SensorSyncAlgorithm {
 		} else if (this.getId() == 2) {
 			this.putProperty("label", new String("N"));
 		}
+		
+		nextPulse();
+		if(this.getId()==1)
+			originalUID_Node=this.getUID();
+		nextPulse();
+		if(this.getId()==2)
+			this.setUID(originalUID_Node);
 		nextPulse();
 	}
 

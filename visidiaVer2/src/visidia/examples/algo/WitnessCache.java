@@ -67,7 +67,7 @@ public class WitnessCache{
 		    	it.remove(); // avoids a ConcurrentModificationException
 		    	detection = true;
 				clonedLabels.addElement(label);
-				System.out.println("detected");
+				//System.out.println("detected");
 				RedMobile.cloneDetected=true;
 				return true;
 		    }

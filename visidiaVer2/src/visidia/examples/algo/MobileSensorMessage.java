@@ -169,6 +169,7 @@ public class MobileSensorMessage extends Message {
 			return String.valueOf(this.UID);
 	}
 
+
 	public Point getLastNodePosition() {
 		return lastNodePosition;
 	}
@@ -216,6 +217,19 @@ public class MobileSensorMessage extends Message {
 
 	public void setUIDsource(String uid) {
 		UIDsource = uid;
+	}
+
+	public void show() {
+		System.out.println("MobileSensorMessage [dest=" + dest + ", lastNodePosition=" + lastNodePosition + ", path=" + path
+				+ ", locationClaim=" + locationClaim + ", UID=" + UID + ", UIDsource=" + UIDsource + "]");
+		
+	}
+
+	public String toShow() {
+
+		return ("MobileSensorMessage [dest=" + dest + ", lastNodePosition=" + lastNodePosition + ", path=" + path
+				+ ", locationClaim=" + locationClaim + ", UID=" + UID + ", UIDsource=" + UIDsource + "]");
+		
 	}
 
 }
