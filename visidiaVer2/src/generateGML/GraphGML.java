@@ -154,7 +154,7 @@ public class GraphGML {
 	}
 
 	private void addEdges(int nbNodes, int averageNeighbor) {
-		//float seille[]={62,44,34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 500x500
+		float seille[]={62,44,34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 500x500
 	//	float seille[]={34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 1000x1000
 		
 		int nbEdgesMax = Math.min(nbEdgesClique(nbNodes), (int) (nbNodes * averageNeighbor) / 2);
@@ -162,9 +162,10 @@ public class GraphGML {
 		boolean full = false;
 		Edge currentEdge =null; 
 		for (int i = 0; i < nbNodes - 1; i++) {
+			//System.out.println(i);
 			for (int j = i; j < nbNodes; j++) {
 				currentEdge=new Edge(nodes.get(i), nodes.get(j));
-				if(true){
+				if(currentEdge.getValue()<25){
 					full = edges.size() >= nbEdgesMax;
 					maxValueEdges = Math.max(maxValueEdges,	currentEdge.getValue());
 					minValueEdges = Math.min(minValueEdges,currentEdge.getValue()	);
@@ -173,6 +174,7 @@ public class GraphGML {
 						edges.add(new Edge(nodes.get(i), nodes.get(j)));
 
 					} else {
+						System.out.println(edges.get(edges.size()-1).getValue()+" "+edges.size());
 						if (edges.get(edges.size() - 1).getValue() > currentEdge.getValue()) {
 							Collections.sort(edges);
 							// System.out.println(edges.get(edges.size()-1).getValue()+">"+currentEdge.getValue());
