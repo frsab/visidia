@@ -34,10 +34,14 @@ public class WitnessCacheMobile{
 	}
 	public void addClaim(MobileSensorMessage msg) {
 		String label=msg.getUIDsource();
-		if( !cache.containsKey(label) ){
+		if(cache.size()==0){
+			cache.put(label, new Cache(msg.getUIDsource(),msg.getUID().toString(),msg.getClaim()));
+		}
+		else if( !cache.containsKey(label) ){
 			//cache.put(label, msg.getClaim());		g uID_src, String uID_msg, Point posSrc
 			cache.put(label, new Cache(msg.getUIDsource(),msg.getUID().toString(),msg.getClaim()));	
 		}
+		//for
 		else{
 			Point cacheElementPos = cache.get(label). getPosSrc();
 			if(cacheElementPos.equals(msg.getClaim())){

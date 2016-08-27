@@ -1,6 +1,0 @@
-8  detected idA=8 idCloneA=0  posA=(300, 343)  posCloneA=(50, 93) nb_WinessCacheMax=3 nb_WinessCache=43, nb_claimsMax=3, nb_claims=10 Nb_Messages=216
-9  detected idA=8 idCloneA=0  posA=(300, 343)  posCloneA=(50, 93) nb_WinessCacheMax=6 nb_WinessCache=39, nb_claimsMax=6, nb_claims=14 Nb_Messages=101
-10  detected idA=8 idCloneA=0  posA=(300, 343)  posCloneA=(50, 93) nb_WinessCacheMax=3 nb_WinessCache=42, nb_claimsMax=3, nb_claims=8 Nb_Messages=117
-11  detected idA=8 idCloneA=0  posA=(300, 343)  posCloneA=(50, 93) nb_WinessCacheMax=3 nb_WinessCache=40, nb_claimsMax=3, nb_claims=3 Nb_Messages=109
-12  detected idA=8 idCloneA=0  posA=(300, 343)  posCloneA=(50, 93) nb_WinessCacheMax=3 nb_WinessCache=40, nb_claimsMax=3, nb_claims=9 Nb_Messages=102
-13  detected idA=8 idCloneA=0  posA=(300, 343)  posCloneA=(50, 93) nb_WinessCacheMax=3 nb_WinessCache=37, nb_claimsMax=3, nb_claims=8 Nb_Messages=97

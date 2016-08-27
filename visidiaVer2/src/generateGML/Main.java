@@ -15,12 +15,12 @@ public class Main {
 	// static int nbNodes=1000;
 
 	public static void main(String[] args) {
-		int [] sizesGraph={100,500,1000,2000,5000};//3000,4000,5000,6000,7000,8000,9000,10000};
+		int [] sizesGraph={1000};//,500,1000,2000,5000};//3000,4000,5000,6000,7000,8000,9000,10000};
 		for (int i = 0; i < sizesGraph.length; i++) {
 			for (int version = 0; version < 1; version++) {
 				System.out.println(sizesGraph[i]);
 				GraphGML g= new GraphGML(sizesGraph[i],"square",40);
-				g.save("GML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
+				g.save("1GGGML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
 				System.out.println("GML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
 			}
 		}

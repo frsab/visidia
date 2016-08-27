@@ -29,7 +29,64 @@ public class GraphGML {
 		else if (type.equals("4D")){
 			add4DTopologyNodes(nbNodes);
 			addEdges(nbNodes, averageNeighbor);
+		}		
+		else if (type.equals("Cross4")){
+			addCross4TopologyNodes(nbNodes);
+			addEdges(nbNodes, averageNeighbor);
 		}
+		
+	}
+
+	private void addCross4TopologyNodes(int nbNodes) {
+		int i = 0;
+		System.out.println("T");
+		System.out.println(i);
+		
+		Node node0=new Node(i,0,0,"T");
+		nodes.add(node0);i++;		
+		
+		Node node1=new Node(i,500,0,"T");
+		nodes.add(node1);i++;		
+		
+		Node node2=new Node(i,0,500,"T");
+		nodes.add(node2);i++;		
+		
+		Node node3=new Node(i,500,500,"T");
+		nodes.add(node3);i++;
+		
+		while (i<nbNodes) {
+			int x = random(0, VALEUR_MAX);
+			int y = random(0, VALEUR_MAX);
+			Node node=new Node(i, x, y, new String("C"));
+			if(!inCross4Topology(node.getX(),node.getY())){
+				nodes.add(node);
+				i++;
+			}
+		}		
+		
+	}
+
+	private boolean inCross4Topology(int x, int y) {
+		if (x<100 || x>400){
+			return false;
+		}
+		else if (x>=200  && x<=300){
+			if(y>=100 && y<=400){
+				return true;
+			}
+			else {
+				return false;
+			}
+		}else{
+			if(y>=200 && y<=300){
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		}
+
 	}
 
 	private void add4DTopologyNodes(int nbNodes) {
@@ -154,8 +211,8 @@ public class GraphGML {
 	}
 
 	private void addEdges(int nbNodes, int averageNeighbor) {
-		float seille[]={62,44,34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 500x500
-	//	float seille[]={34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 1000x1000
+		//float seille[]={62,44,34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 500x500
+		//float seille[]={34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 1000x1000
 		
 		int nbEdgesMax = Math.min(nbEdgesClique(nbNodes), (int) (nbNodes * averageNeighbor) / 2);
 		System.out.println(nbNodes + " " + nbEdgesMax);
@@ -163,17 +220,21 @@ public class GraphGML {
 		Edge currentEdge =null; 
 		for (int i = 0; i < nbNodes - 1; i++) {
 			//System.out.println(i);
-			for (int j = i; j < nbNodes; j++) {
+			for (int j = i+1; j < nbNodes; j++) {
+				
 				currentEdge=new Edge(nodes.get(i), nodes.get(j));
-				if(currentEdge.getValue()<25){
+				System.out.println(currentEdge.getValue()+"i= "+i+" j= "+j+" edges.size()"+edges.size());
+				if(currentEdge.getValue()<100){
 					full = edges.size() >= nbEdgesMax;
 					maxValueEdges = Math.max(maxValueEdges,	currentEdge.getValue());
 					minValueEdges = Math.min(minValueEdges,currentEdge.getValue()	);
 					if (!full) {
 
 						edges.add(new Edge(nodes.get(i), nodes.get(j)));
+						System.out.println("!full"+currentEdge.getValue());
 
 					} else {
+						System.out.println("full"+currentEdge.getValue());
 						System.out.println(edges.get(edges.size()-1).getValue()+" "+edges.size());
 						if (edges.get(edges.size() - 1).getValue() > currentEdge.getValue()) {
 							Collections.sort(edges);
@@ -189,7 +250,8 @@ public class GraphGML {
 			}
 
 		}
-		System.out.println(" "+(edges.get(edges.size() - 1)).getValue()
+		System.out.println("edges.size()"+edges.size());
+		/*System.out.println(" "+(edges.get(edges.size() - 1)).getValue()
 				+" "+(edges.get(edges.size() - 1)).getValue()
 				+" "+(edges.get(edges.size() - 2)).getValue()
 				+" "+(edges.get(edges.size() - 3)).getValue()
@@ -199,7 +261,7 @@ public class GraphGML {
 				//+" "+(edges.get(15000)).getValue()
 				
 				+" ************"
-				);
+				);*/
 
 	}
 

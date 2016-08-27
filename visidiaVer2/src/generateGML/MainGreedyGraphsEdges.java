@@ -23,7 +23,7 @@ public class MainGreedyGraphsEdges {
 		for (int i = 0; i < sizesGraph.length; i++) {
 			for (int j = 0; j < averageEdgeMaxLegtn[i]*2; j++) {
 				GraphGML g= new GraphGML(sizesGraph[i],"square",40,j);
-				g.save("GML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+j+"_.gml");
+				g.save("GMLGreedy_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+j+"_.gml");
 				System.out.println("GMLe_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+j+"_.gml");
 				
 			}

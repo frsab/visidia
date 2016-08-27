@@ -35,6 +35,7 @@ public class RedMobile extends SensorSyncAlgorithm {
 	private Point lastPos = new Point();
 	private Random randMove = new Random();
 	private Point pos;
+	private static boolean allClaimsIsEmpty=false;
 
 	private static String originalUID_Node;
 
@@ -56,12 +57,28 @@ public class RedMobile extends SensorSyncAlgorithm {
 		fixWitnessPoints();		this.nextPulse();
 		//if(this.getId()==0)	for (int i = 0; i < witnessPoints.size(); i++) {System.out.println("WP "+i+witnessPoints.get(i));}
 		makeFirstMessage();		this.nextPulse();
+		updateTerminateAlgo();			this.nextPulse();
 
-		while (!cloneDetected) {
-			move(randMove);			this.nextPulse();
+		while (/*!cloneDetected && */!allClaimsIsEmpty) {
+			System.out.println(this.getId()+"_______________");this.nextPulse();
+			System.out.println(this.getId()+" arity : "+this.getArity()+" claimSize : "+this.claims.size()+"cacheSize="+this.cache.size());this.nextPulse();
+			
+			this.nextPulse();
+			move(randMove);					this.nextPulse();
 			updateNeighborLocs();			this.nextPulse();
-			sendMessage();			this.nextPulse();
-			receiveMessage();			this.nextPulse();
+			sendMessage();					this.nextPulse();
+			receiveMessage();				this.nextPulse();
+			updateTerminateAlgo();			this.nextPulse();
+		}
+		System.out.println(this.getId()+" "+cloneDetected);
+	}
+
+	private synchronized void updateTerminateAlgo() {
+		
+		
+		this.nextPulse();
+		if(!this.claims.empty()){
+			allClaimsIsEmpty=false;
 		}
 	}
 
@@ -77,20 +94,20 @@ public class RedMobile extends SensorSyncAlgorithm {
 		int arity = this.getArity();
 		for (int i = 0; i < arity; i++)
 			this.neighborLocs.put(new Integer(i), this.vertex.getNeighborByDoor(i).getPos());
+		System.out.println(this.getId()+" neighborLocs "+neighborLocs.toString());
 		//	this.neighborLocs.addElement(this.vertex.getNeighborByDoor(i).getPos());
 		
 	}
 
 	private void receiveMessage() {
 		Door d = new Door();
-		if(!claims.empty()){
-			String strClaims=claims.toString();
-			System.out.println(this.getId()+" à envoyer déjà existant \n"+"claims."+strClaims+"\n____________________");
-			}
 		while (this.anyMsg()) {
 			MobileSensorMessage msg = (MobileSensorMessage) this.receive(d);
-			this.claims.push(new MobileSensorMessage(msg));
+			System.out.println("receive at "+this.getId()+" : "+msg);
+			
+			//this.claims.push(new MobileSensorMessage(msg));
 			if (msg.getDest().equals(new Point(-1, -1))) {
+				this.cache.addClaim(msg);
 				//System.out.println("witnessPoints size=" + witnessPoints.size());
 				for (Point destFinal : witnessPoints) {
 					this.claims.push(new MobileSensorMessage(msg, destFinal));
@@ -102,46 +119,69 @@ public class RedMobile extends SensorSyncAlgorithm {
 		}
 		if(!this.claims.empty())
 			this.putProperty("label", new String("A"));
-		else
+		else 
 			this.putProperty("label", new String("K"));
-
+		/*try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+*/
 	}
 
 	private void sendMessage() {
 		MobileSensorMessage m = null;
 		if ((!this.claims.empty())&&(getArity() >0)) {
-		//	System.out.println(this.getId()+" getArity()="+getArity());
-
-			/*
-			 * if (!this.claims.empty()) m = (SensorMessage) claims.pop();
-			 */
+			;//System.out.println(this.getId()+" getArity()="+getArity());
 			while (!this.claims.empty()) {
-				synchronized(claims){
 					m = (MobileSensorMessage) claims.pop();
-					System.out.println(this.getId()+"messageinClaim=" + m);
-					 /* m.setLastNodePosition(this.vertex.getPos());
-					 * //System.out.println(this.getId()+"message=" + m);
-					 */
-					if (m.getDest().equals(new Point(-1, -1))) {
+					if ((m.getDest().equals(new Point(-1, -1)))&&(m.getLastNodePosition().equals(new Point(-1, -1)))) {
 						System.out.println(this.getId()+"broadcast=" + m);
+						m.setLastNodePosition(this.vertex.getPos());
 						sendAll(m);
 					}
-					else if (!snedGPSR(m)) {
-						cache.addClaim(m);
+					else{
+						System.out.println(this.getId()+"sent=" + m+"lastPos("+m.getLastNodePosition().x+","+m.getLastNodePosition().y+") dest ="+m.getDest().x+","+m.getDest().y+") ");;
+						m.setLastNodePosition(this.vertex.getPos());
+						boolean sent=snedGPSR(m);
+						if (!sent) {
+							System.out.println(this.getId()+"witness save=" + m+"lastPos("+m.getLastNodePosition().x+","+m.getLastNodePosition().y+") dest ="+m.getDest().x+","+m.getDest().y+") ");;
+							
+							cache.addClaim(m);
+						}
 					}
-				}
-
-
 			}
 		}
+		/*try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+	}
+	
+	private void sendAll(MobileSensorMessage m) {
+		int arity = this.getArity();
+		for (int i = 0; i < arity; i++) {
+			MobileSensorMessage currentMsg=(MobileSensorMessage) m.clone();
+			System.out.println(this.getId()+"sent=" + m+"lastPos("+m.getLastNodePosition().x+","+m.getLastNodePosition().y+") dest ="+m.getDest().x+","+m.getDest().y+") ");;
+
+		//	System.out.println("sent from "+this.getId()+currentMsg+"to"+i);
+			this.sendTo(i, currentMsg);
+		}
+		
 	}
 
 	private boolean snedGPSR(MobileSensorMessage msg) {
-		System.out.println(this.getId()+" GPSR messageinClaim=" + msg+"msg.getDest"+msg.getDest().getX()+" "+msg.getDest().getY());
+
+	//	System.out.println(this.getId()+" GPSR messageinClaim=" + msg+"msg.getDest"+msg.getDest().getX()+" "+msg.getDest().getY());
 		Point finalDestRrouting = msg.getDest();
 		int destDoor = this.getClosestDoor(finalDestRrouting, msg.getLastNodePosition());
-		if (destDoor != -1) {
-			System.out.println(this.getId()+" "+msg+"toDoor"+destDoor);
+		if (destDoor != -1) {		
+			System.out.println(this.getId()+"sent=" + msg+"lastPos("+msg.getLastNodePosition().x+","+msg.getLastNodePosition().y+") dest ="+msg.getDest().x+","+msg.getDest().y+") ");;
+
+		//	System.out.println(this.getId()+" "+msg+"toDoor"+destDoor);
 			this.sendTo(destDoor, new MobileSensorMessage((MobileSensorMessage) msg));
 			return true;
 		}
@@ -149,6 +189,7 @@ public class RedMobile extends SensorSyncAlgorithm {
 	}
 
 	private int getClosestDoor(Point finalDestRrouting, Point lastNodePosition) {
+		System.out.println("finalDestRrouting"+finalDestRrouting+"lastNodePosition"+lastNodePosition);
 		/*************************************************************/
 		if (finalDestRrouting.distance(this.vertex.getPos()) == 0)// stop
 																	// routing
@@ -283,17 +324,18 @@ public class RedMobile extends SensorSyncAlgorithm {
 	private void move(Random rand) {
 		boolean dynamic=false ;
 		int dynamicr = rand.nextInt(10);
-		if(dynamicr==0) dynamic=true ;
+		//if(dynamicr==0) 
+		dynamic=true ;
 		if(dynamic){
 				int itMayMove = rand.nextInt(5); // Entre 0 et 1
 				//if (this.vertex.getPos().equals(lastPos))
-				if (itMayMove != 0)
+				if (true)//itMayMove != 0)
 					this.move(this.getId());	
 		}
-		try {
+		/*try {
 			Thread.sleep(600);
 		} catch (Exception e) {
-		}
+		}*/
 	}
 
 
