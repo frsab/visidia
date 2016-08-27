@@ -218,38 +218,36 @@ public class GraphGML {
 		System.out.println(nbNodes + " " + nbEdgesMax);
 		boolean full = false;
 		Edge currentEdge =null; 
+		Double maxEdgeLength=(new Point(0,0)).distance(new Point(VALEUR_MAX,VALEUR_MAX));
 		for (int i = 0; i < nbNodes - 1; i++) {
-			//System.out.println(i);
 			for (int j = i+1; j < nbNodes; j++) {
-				
 				currentEdge=new Edge(nodes.get(i), nodes.get(j));
-				System.out.println(currentEdge.getValue()+"i= "+i+" j= "+j+" edges.size()"+edges.size());
-				if(currentEdge.getValue()<100){
+				//System.out.println(currentEdge.getValue()+"i= "+i+" j= "+j+" edges.size()"+edges.size());
+				if(currentEdge.getValue()<maxEdgeLength){
 					full = edges.size() >= nbEdgesMax;
 					maxValueEdges = Math.max(maxValueEdges,	currentEdge.getValue());
 					minValueEdges = Math.min(minValueEdges,currentEdge.getValue()	);
 					if (!full) {
-
 						edges.add(new Edge(nodes.get(i), nodes.get(j)));
-						System.out.println("!full"+currentEdge.getValue());
-
+						//System.out.println("!full"+currentEdge.getValue());
 					} else {
-						System.out.println("full"+currentEdge.getValue());
-						System.out.println(edges.get(edges.size()-1).getValue()+" "+edges.size());
+						Collections.sort(edges);
+						maxEdgeLength=edges.get(edges.size()-1).getValue();
+						//System.out.println(" full currentEdge.getValue() "+currentEdge.getValue()+	" maxValue Edge="+edges.get(edges.size()-1).getValue()	+" maxEdgeLength"+maxEdgeLength);
+					//	System.out.println(edges.get(edges.size()-1).getValue()+" "+edges.size());
 						if (edges.get(edges.size() - 1).getValue() > currentEdge.getValue()) {
-							Collections.sort(edges);
+							//Collections.sort(edges);
 							// System.out.println(edges.get(edges.size()-1).getValue()+">"+currentEdge.getValue());
 							//System.out.println((edges.get(edges.size() - 1)).getValue());
 							edges.remove(edges.size() - 1);
 							edges.add(edges.size() - 1, currentEdge);
-			
 						}
 					}
 				}
-
 			}
-
 		}
+		System.out.println(" full currentEdge.getValue() "+currentEdge.getValue()+	" maxValue Edge="+edges.get(edges.size()-1).getValue()	+" maxEdgeLength"+maxEdgeLength);
+
 		System.out.println("edges.size()"+edges.size());
 		/*System.out.println(" "+(edges.get(edges.size() - 1)).getValue()
 				+" "+(edges.get(edges.size() - 1)).getValue()
