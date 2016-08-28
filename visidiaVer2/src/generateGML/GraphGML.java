@@ -38,7 +38,7 @@ public class GraphGML {
 	}
 
 	private void addCross4TopologyNodes(int nbNodes) {
-		int i = 0;
+		int i = 1;
 		System.out.println("T");
 		System.out.println(i);
 		
@@ -54,7 +54,7 @@ public class GraphGML {
 		Node node3=new Node(i,500,500,"T");
 		nodes.add(node3);i++;
 		
-		while (i<nbNodes) {
+		while (i<=nbNodes) {
 			int x = random(0, VALEUR_MAX);
 			int y = random(0, VALEUR_MAX);
 			Node node=new Node(i, x, y, new String("C"));
@@ -211,14 +211,32 @@ public class GraphGML {
 	}
 
 	private void addEdges(int nbNodes, int averageNeighbor) {
-		//float seille[]={62,44,34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 500x500
+		double seille[]={90,60,55,50,34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 500x500
 		//float seille[]={34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 1000x1000
 		
 		int nbEdgesMax = Math.min(nbEdgesClique(nbNodes), (int) (nbNodes * averageNeighbor) / 2);
 		System.out.println(nbNodes + " " + nbEdgesMax);
 		boolean full = false;
 		Edge currentEdge =null; 
-		Double maxEdgeLength=(new Point(0,0)).distance(new Point(VALEUR_MAX,VALEUR_MAX));
+		double maxEdgeLength=(new Point(0,0)).distance(new Point(VALEUR_MAX,VALEUR_MAX));
+		//double maxEdgeLength=0;
+		switch (nbNodes) {
+		case 500:maxEdgeLength=90;
+			
+		break;		
+		case 1000:maxEdgeLength=60;
+			
+		break;		
+		case 2000:maxEdgeLength=40;
+			
+		break;		
+		case 5000:maxEdgeLength=30;
+			break;		
+
+		default:
+			break;
+		}
+		
 		for (int i = 0; i < nbNodes - 1; i++) {
 			for (int j = i+1; j < nbNodes; j++) {
 				currentEdge=new Edge(nodes.get(i), nodes.get(j));
@@ -310,8 +328,9 @@ public class GraphGML {
 			}
 			fw.write("]");
 			fw.close();
-		} catch (IOException exception) {
-			System.out.println("Erreur lors de Lecture/ecriture fichier : " + exception.getMessage());
+		} catch (IOException e) {
+			        
+	        System.out.println("Erreur lors de Lecture/ecriture fichier : "+fileName+  "   " + e.getMessage()+" "+e.getCause());
 		}
 
 	}

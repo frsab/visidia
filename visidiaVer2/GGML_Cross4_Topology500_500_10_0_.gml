@@ -37,52 +37,202 @@ directed 0
       id 4
       label "C"
       graphics [
-         x 349
-         y 473
+         x 354
+         y 416
       ]
    ]
    node [
       id 5
       label "C"
       graphics [
-         x 138
-         y 4
+         x 486
+         y 485
       ]
    ]
    node [
       id 6
       label "C"
       graphics [
-         x 253
-         y 44
+         x 347
+         y 489
       ]
    ]
    node [
       id 7
       label "C"
       graphics [
-         x 335
-         y 44
+         x 341
+         y 115
       ]
    ]
    node [
       id 8
       label "C"
       graphics [
-         x 12
-         y 84
+         x 42
+         y 498
       ]
    ]
    node [
       id 9
       label "C"
       graphics [
-         x 41
-         y 73
+         x 231
+         y 403
       ]
    ]
    edge [
+      source 3
+      target 5
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 2
+      target 8
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 4
+      target 6
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 4
+      target 9
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 5
+      target 6
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 6
+      target 9
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 4
+      target 5
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 3
+      target 6
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 3
+      target 4
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 1
+      target 7
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 2
+      target 9
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 5
+      target 9
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 3
+      target 9
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 4
+      target 7
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 6
+      target 8
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 7
+      target 9
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 4
+      target 8
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 2
+      target 6
+      label ""
+      weight 1.0
+   ]
+   edge [
       source 0
+      target 7
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 2
+      target 4
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 6
+      target 7
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 5
+      target 7
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 3
+      target 7
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 1
+      target 4
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 5
+      target 8
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 3
       target 8
       label ""
       weight 1.0
@@ -94,7 +244,67 @@ directed 0
       weight 1.0
    ]
    edge [
-      source 6
+      source 1
+      target 9
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 1
+      target 5
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 7
+      target 8
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 2
+      target 5
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 0
+      target 8
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 0
+      target 1
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 0
+      target 2
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 1
+      target 3
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 2
+      target 3
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 1
+      target 6
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 2
       target 7
       label ""
       weight 1.0
@@ -102,6 +312,12 @@ directed 0
    edge [
       source 8
       target 9
+      label ""
+      weight 1.0
+   ]
+   edge [
+      source 0
+      target 4
       label ""
       weight 1.0
    ]
