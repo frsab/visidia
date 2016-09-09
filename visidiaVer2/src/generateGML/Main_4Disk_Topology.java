@@ -20,7 +20,7 @@ public class Main_4Disk_Topology {
 			for (int version = 0; version < 1; version++) {
 				System.out.println(sizesGraph[i]);
 				GraphGML g= new GraphGML(sizesGraph[i],"4D",40);
-				g.save("GGML_4D_Topology"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
+				g.save("xGGML_4D_Topology"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
 			}
 		}
 	}

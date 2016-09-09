@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Vector;
 
-public class Main {
+public class Main_Square {
 
 	private static final int VALEUR_MIN = 0;
 	private static final int VALEUR_MAX = 500;
@@ -20,8 +20,8 @@ public class Main {
 			for (int version = 0; version < 1; version++) {
 				System.out.println(sizesGraph[i]);
 				GraphGML g= new GraphGML(sizesGraph[i],"square",40);
-				g.save("1GGGML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
-				System.out.println("GML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
+				g.save("xGGML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
+				System.out.println("xGML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
 			}
 		}
 	}

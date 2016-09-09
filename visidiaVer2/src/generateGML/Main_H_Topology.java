@@ -20,7 +20,7 @@ public class Main_H_Topology {
 			for (int version = 0; version < 1; version++) {
 				System.out.println(sizesGraph[i]);
 				GraphGML g= new GraphGML(sizesGraph[i],"H",40);
-				g.save("GML_H_Topology"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
+				g.save("xGML_H_Topology"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
 			}
 		}
 	}

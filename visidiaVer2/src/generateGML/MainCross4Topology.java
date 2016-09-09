@@ -6,7 +6,7 @@ public class MainCross4Topology {
 	private static final int VALEUR_MIN = 0;
 	private static final int VALEUR_MAX = 500;
 	public static void main(String[] args) {
-		int [] sizesGraph={500,1000,2000,5000};//,3000,4000,5000,6000,7000,8000,9000,10000};
+		int [] sizesGraph={500};//,1000,2000,5000};//,3000,4000,5000,6000,7000,8000,9000,10000};
 		for (int i = 0; i < sizesGraph.length; i++) {
 			for (int version = 0; version < 1; version++) {
 				System.out.println(sizesGraph[i]);

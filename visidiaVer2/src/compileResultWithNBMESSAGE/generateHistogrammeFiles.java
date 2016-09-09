@@ -15,8 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class generateHistogrammeFiles {
-	private static final String RESULT_FILES_FOLDER = "./traceSquareAllsAlgosResult_compiled/";
-	public static final String GNUPLOT_HISTOGRAMS_FILES = "./gnuplotHistFiles/";
+	private static final String RESULT_FILES_FOLDER = "./hist/";
+	public static final String GNUPLOT_HISTOGRAMS_FILES = "./hist1/";
 
 
 	public static void main(String[] args) {
