@@ -19,21 +19,51 @@ public class GraphGML {
 		System.out.println("nbNodes" + nbNodes);
 		if (type.equals("square")) {
 			addNodes(nbNodes);
-			//addEdges(nbNodes, averageNeighbor);
+			addEdges(nbNodes, averageNeighbor);
 
 		}
-		else if (type.equals("H")){
-			addHTopologyNodes(nbNodes);
-			//addEdges(nbNodes, averageNeighbor);
+		else if (type.equals("HThin")){
+			addHThinTopologyNodes(nbNodes);
+			addEdges(nbNodes, averageNeighbor);
 		}
 		else if (type.equals("4D")){
 			add4DTopologyNodes(nbNodes);
-			//addEdges(nbNodes, averageNeighbor);
+			addEdges(nbNodes, averageNeighbor);
 		}		
 		else if (type.equals("Cross4")){
 			addCross4TopologyNodes(nbNodes);
-			//addEdges(nbNodes, averageNeighbor);
+			addEdges(nbNodes, averageNeighbor);
 		}
+		else if (type.equals("H")){
+			add_H_TopologyNodes(nbNodes);
+			addEdges(nbNodes, averageNeighbor);
+		}
+		
+	}
+
+	private void add_H_TopologyNodes(int nbNodes) {
+		int i = 0;
+		Node nodeA=new Node(i,100,100,"T");
+		nodes.add(nodeA);i++;
+		
+		for (int j = 0; j <= 10; j++) {
+			for (int jj = 0; jj <= 10; jj++) {
+				Node node=new Node(i,j*50,jj*50,"F");;
+				if((!node.equals(nodeA))&& !inHTopology(node.getX(),node.getY())){
+					nodes.add(node);
+					i++;
+				}
+			}
+		}
+		while (i<nbNodes) {
+			int x = random(0, VALEUR_MAX);
+			int y = random(0, VALEUR_MAX);
+			Node node=new Node(i, x, y, new String("C"));
+			if((!node.equals(nodeA))&& inHTopology(node.getX(),node.getY())){
+				//nodes.add(node);
+				i++;
+			}
+		}		
 		
 	}
 
@@ -164,7 +194,7 @@ public class GraphGML {
 		
 	}
 
-	private void addHTopologyNodes(int nbNodes) {
+	private void addHThinTopologyNodes(int nbNodes) {
 		int i = 0;
 		Node nodeA=new Node(i,100,100,"T");
 		nodes.add(nodeA);i++;

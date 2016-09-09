@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Vector;
 
-public class Main_H_Topology {
+public class Main_HThin_Topology {
 
 	private static final int VALEUR_MIN = 0;
 	private static final int VALEUR_MAX = 500;
@@ -19,8 +19,8 @@ public class Main_H_Topology {
 		for (int i = 0; i < sizesGraph.length; i++) {
 			for (int version = 0; version < 1; version++) {
 				System.out.println(sizesGraph[i]);
-				GraphGML g= new GraphGML(sizesGraph[i],"H",40);
-				g.save("xGML_H_Topology"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
+				GraphGML g= new GraphGML(sizesGraph[i],"HThin",40);
+				g.save("GML_HThin_Topology"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
 			}
 		}
 	}
