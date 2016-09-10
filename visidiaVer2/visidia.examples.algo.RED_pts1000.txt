@@ -1,1 +1,0 @@
-25001  detected idA=12 idCloneA=1  posCloneA=(550,50)  posA=(393, 239) nb_WinessCacheMax=1 nb_WinessCache=12 nb_claimsMax=1 nb_claims=1 Nb_Messages=95 totalMemory=498 maxMemory=124

@@ -59,8 +59,8 @@ public class GraphGML {
 			int x = random(0, VALEUR_MAX);
 			int y = random(0, VALEUR_MAX);
 			Node node=new Node(i, x, y, new String("C"));
-			if((!node.equals(nodeA))&& inHTopology(node.getX(),node.getY())){
-				//nodes.add(node);
+			if((!node.equals(nodeA))&& !inHTopology(node.getX(),node.getY())){
+				nodes.add(node);
 				i++;
 			}
 		}		
@@ -68,7 +68,7 @@ public class GraphGML {
 	}
 
 	private void addCross4TopologyNodes(int nbNodes) {
-		int i = 1;
+		int i = 0;
 		System.out.println("T");
 		System.out.println(i);
 		
@@ -141,7 +141,7 @@ public class GraphGML {
 			int y = random(0, VALEUR_MAX);
 			Node node=new Node(i, x, y, new String("C"));
 			if((!node.equals(nodeA))&& in4DTopology(node.getX(),node.getY())){
-				//nodes.add(node);
+				nodes.add(node);
 				i++;
 			}
 		}		
@@ -213,7 +213,7 @@ public class GraphGML {
 			int y = random(0, VALEUR_MAX);
 			Node node=new Node(i, x, y, new String("C"));
 			if((!node.equals(nodeA))&& inHTopology(node.getX(),node.getY())){
-				//nodes.add(node);
+				nodes.add(node);
 				i++;
 			}
 		}		
@@ -266,23 +266,19 @@ public class GraphGML {
 		default:
 			break;
 		}
-		
-		for (int i = 0; i < nbNodes - 1; i++) {
+		for (int i = 0; i < nbNodes -1; i++) {
 			for (int j = i+1; j < nbNodes; j++) {
 				currentEdge=new Edge(nodes.get(i), nodes.get(j));
 				//System.out.println(currentEdge.getValue()+"i= "+i+" j= "+j+" edges.size()"+edges.size());
 				if(currentEdge.getValue()<maxEdgeLength){
-					full = edges.size() >= nbEdgesMax;
 					maxValueEdges = Math.max(maxValueEdges,	currentEdge.getValue());
 					minValueEdges = Math.min(minValueEdges,currentEdge.getValue()	);
-					if (!full) {
+					if (edges.size() < nbEdgesMax){
 						edges.add(new Edge(nodes.get(i), nodes.get(j)));
-						//System.out.println("!full"+currentEdge.getValue());
 					} else {
 						Collections.sort(edges);
 						maxEdgeLength=edges.get(edges.size()-1).getValue();
-						//System.out.println(" full currentEdge.getValue() "+currentEdge.getValue()+	" maxValue Edge="+edges.get(edges.size()-1).getValue()	+" maxEdgeLength"+maxEdgeLength);
-					//	System.out.println(edges.get(edges.size()-1).getValue()+" "+edges.size());
+						System.out.println(maxEdgeLength);
 						if (edges.get(edges.size() - 1).getValue() > currentEdge.getValue()) {
 							//Collections.sort(edges);
 							// System.out.println(edges.get(edges.size()-1).getValue()+">"+currentEdge.getValue());
@@ -294,7 +290,10 @@ public class GraphGML {
 				}
 			}
 		}
-		System.out.println(" full currentEdge.getValue() "+currentEdge.getValue()+	" maxValue Edge="+edges.get(edges.size()-1).getValue()	+" maxEdgeLength"+maxEdgeLength);
+		System.out.println(" full currentEdge.getValue() "+currentEdge.getValue()
+		+	" maxValue Edge="+edges.get(edges.size()-1).getValue()	
+		+" maxEdgeLength"+maxEdgeLength
+		+"nbEdges"+edges.size());
 
 		System.out.println("edges.size()"+edges.size());
 		/*System.out.println(" "+(edges.get(edges.size() - 1)).getValue()
@@ -349,7 +348,7 @@ public class GraphGML {
 		for (int j = i; j < nbNodes; j++) {
 			int x = random(0, VALEUR_MAX);
 			int y = random(0, VALEUR_MAX);
-			//nodes.add(new Node(i, x, y, new String("C")));
+			nodes.add(new Node(i, x, y, new String("C")));
 			i++;
 		}
 
