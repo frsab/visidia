@@ -26,6 +26,14 @@ public class GraphGML {
 			addHThinTopologyNodes(nbNodes);
 			addEdges(nbNodes, averageNeighbor);
 		}
+		else if (type.equals("HThin100")){
+			addHThin100TopologyNodes(nbNodes);
+			addEdges(nbNodes, averageNeighbor);
+		}
+		else if (type.equals("CrossThin100")){
+			addCrossThin100TopologyNodes(nbNodes);
+			addEdges(nbNodes, averageNeighbor);
+		}
 		else if (type.equals("4D")){
 			add4DTopologyNodes(nbNodes);
 			addEdges(nbNodes, averageNeighbor);
@@ -39,6 +47,81 @@ public class GraphGML {
 			addEdges(nbNodes, averageNeighbor);
 		}
 		
+	}
+
+	private void addCrossThin100TopologyNodes(int nbNodes) {
+		int i = 0;
+		Node nodeA1=new Node(i,100,100,"T");nodes.add(nodeA1);i++;
+		Node nodeA2=new Node(i,400,400,"T");nodes.add(nodeA2);i++;
+
+		while (i<nbNodes) {
+			int x = random(0, VALEUR_MAX);
+			int y = random(0, VALEUR_MAX);
+			Node node=new Node(i, x, y, new String("C"));
+			if((!node.equals(nodeA1))&&(!node.equals(nodeA2))&& inCross100Topology(node.getX(),node.getY())){
+				nodes.add(node);
+				i++;
+			}
+		}
+		
+	}
+
+	private boolean inCross100Topology(int x, int y) {
+		if((x>=0&&x<=50)||(x>=450 && x<=500)){
+			return true;
+		}
+		else if((x>=50 && x<=200)||(x>=300 && x<=450)){
+			if((y>=0 && y<=200)||(y>=300 && y<=500))
+				return true;
+		}
+		else if((x>=200 && x<=300)){
+			if((y>=0 && y<=50)||(y>=450 && y<=500))
+				return true;
+					
+		}
+		return false;
+		
+	}
+
+	private void addHThin100TopologyNodes(int nbNodes) {
+		int i = 0;
+		Node nodeA=new Node(i,250,150,"T");nodes.add(nodeA);i++;
+	//	Node nodeA2=new Node(i,400,400,"T");nodes.add(nodeA2);i++;
+		for (int j = 0; j <= 10; j++) {
+			for (int jj = 0; jj <= 10; jj++) {
+				Node node=new Node(i,j*50,jj*50,"F");;
+				if((!node.equals(nodeA))&& inH100Topology(node.getX(),node.getY())){
+					nodes.add(node);
+					i++;
+				}
+			}
+		}
+
+		while (i<nbNodes) {
+			int x = random(0, VALEUR_MAX);
+			int y = random(0, VALEUR_MAX);
+			Node node=new Node(i, x, y, new String("C"));
+			if((!node.equals(nodeA))&& inH100Topology(node.getX(),node.getY())){
+				nodes.add(node);
+				i++;
+			}
+		}
+	}
+
+	private boolean inH100Topology(int x, int y) {
+		if((x>=0&&x<=50)||(x>=450 && x<=500)){
+			return true;
+		}
+		else if((x>=50 && x<=150)||(x>=350 && x<=450)){
+			if((y>=0 && y<=50)||(y>=450 && y<=500))
+				return true;
+		}
+		else if((x>=150 && x<=350)){
+			if((y>=0 && y<=200)||(y>=300 && y<=500))
+				return true;
+			//System.out.println(x+"  "+y);
+		}
+		return false;
 	}
 
 	private void add_H_TopologyNodes(int nbNodes) {
@@ -225,19 +308,13 @@ public class GraphGML {
 		if((x>=100 && x<=200)||(x>=300 && x<=400)){
 			if((y>=0 && y<=100)||(y>=400 && y<=500))
 				return true;
-
-						
 		}
 		if((x>=199 && x<=301)){
 			if((y>=0 && y<=200)||(y>=300 && y<=500))
 				return true;
 			System.out.println(x+"  "+y);
-			
 		}
-		
 		return false;
-		
-		
 	}
 
 	private void addEdges(int nbNodes, int averageNeighbor) {
@@ -245,7 +322,7 @@ public class GraphGML {
 		//float seille[]={34,33,27,25,23,21,21,21,11,11,11,11,11,11,11,11}; //pour graph de 1000x1000
 		
 		int nbEdgesMax = Math.min(nbEdgesClique(nbNodes), (int) (nbNodes * averageNeighbor) / 2);
-		System.out.println(nbNodes + " " + nbEdgesMax);
+		//System.out.println(nbNodes + " " + nbEdgesMax);
 		boolean full = false;
 		Edge currentEdge =null; 
 		double maxEdgeLength=(new Point(0,0)).distance(new Point(VALEUR_MAX,VALEUR_MAX));
@@ -278,7 +355,7 @@ public class GraphGML {
 					} else {
 						Collections.sort(edges);
 						maxEdgeLength=edges.get(edges.size()-1).getValue();
-						System.out.println(maxEdgeLength);
+					//	System.out.println(maxEdgeLength);
 						if (edges.get(edges.size() - 1).getValue() > currentEdge.getValue()) {
 							//Collections.sort(edges);
 							// System.out.println(edges.get(edges.size()-1).getValue()+">"+currentEdge.getValue());

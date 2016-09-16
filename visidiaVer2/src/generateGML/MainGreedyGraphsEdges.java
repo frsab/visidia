@@ -23,12 +23,26 @@ public class MainGreedyGraphsEdges {
 		for (int i = 0; i < sizesGraph.length; i++) {
 			for (int j = 0; j < averageEdgeMaxLegtn[i]*2; j++) {
 				GraphGML g= new GraphGML(sizesGraph[i],"square",40,j);
-				g.save("GMLGreedy_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+j+"_.gml");
+				g.save(getCurrentFolderPath()+"/GML4C/CrossThin/"+sizesGraph[i]+"GMLGreedy_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+j+"_.gml");
 				System.out.println("GMLe_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+j+"_.gml");
 				
 			}
 			
 		}
+	}
+
+	private static String getCurrentFolderPath() {
+		String current = null;
+		try {
+			current = new java.io.File( "." ).getCanonicalPath();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        System.out.println("Current dir:"+current);
+        String currentDir = System.getProperty("user.dir");
+        System.out.println("Current dir:" +currentDir);
+		return current;
 	}
 
 }

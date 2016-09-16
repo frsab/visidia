@@ -13,7 +13,7 @@ public class MainCross4Topology {
 				GraphGML g= new GraphGML(sizesGraph[i],"Cross4",40);
 				g.save("GML_CrossThin"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
 
-				g.save(getCurrentFolderPath()+"/GML4C/CrossThin/"+sizesGraph[i]+"/GML_Cross4_Topology"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
+				g.save(getCurrentFolderPath()+"/GML/Cross4Thin/"+sizesGraph[i]+"/GML_Cross4_Topology"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
 			}
 		}
 	}

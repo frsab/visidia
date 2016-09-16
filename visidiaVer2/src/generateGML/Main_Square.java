@@ -20,12 +20,25 @@ public class Main_Square {
 			for (int version = 0; version < 1; version++) {
 				System.out.println(sizesGraph[i]);
 				GraphGML g= new GraphGML(sizesGraph[i],"square",40);
-				g.save("GML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
-				System.out.println("xGML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
+				g.save(getCurrentFolderPath()+"/GML/Square/"+sizesGraph[i]+"GML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
+			//	System.out.println("xGML_"+VALEUR_MAX+"_"+VALEUR_MAX+"_"+sizesGraph[i]+"_"+version+"_.gml");
 			}
 		}
 	}
 
+	private static String getCurrentFolderPath() {
+		String current = null;
+		try {
+			current = new java.io.File( "." ).getCanonicalPath();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        System.out.println("Current dir:"+current);
+        String currentDir = System.getProperty("user.dir");
+        System.out.println("Current dir:" +currentDir);
+		return current;
+	}
 
 
 
